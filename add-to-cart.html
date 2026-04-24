@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>K-Mart - Shopping</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --kmart-blue: #26B3F1;
+        }
+        body { 
+            background-color: #f8f9fa; 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            padding-top: 88px;
+        }
+        
+        /* Navbar - Exact as you gave */
+        .navbar {
+            background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 12px 0;
+        }
+        .navbar-brand {
+            font-size: 2.4rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
+        .logo-k { color: #e60000; }
+        .logo-mart { color: #ffffff; }
+
+        .search-container {
+            position: relative;
+            width: 460px;
+            max-width: 100%;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 14px 50px 14px 20px;
+            border-radius: 50px;
+            border: none;
+            background: #ffffff;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            font-size: 1.05rem;
+        }
+        .search-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.4rem;
+            color: #0ea5e9;
+            cursor: pointer;
+        }
+        .search-icon:hover { color: #e60000; }
+
+        .nav-icons i {
+            font-size: 26px;
+            margin-left: 22px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .nav-icons i:hover {
+            color: #e60000;
+            transform: scale(1.15);
+        }
+
+        .btn-logout {
+            background: #ffffff;
+            color: #0ea5e9;
+            border-radius: 50px;
+            padding: 8px 24px;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        .btn-logout:hover {
+            background: #e60000;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .back-home-btn {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            z-index: 1000;
+            background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+        }
+        .back-home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(14,165,233,0.4);
+        }
+
+        .section { display: none; }
+        .section.active { display: block; }
+
+        .checkout-box, .summary-box {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .cart-item { 
+            border-bottom: 1px solid #f0f0f0; 
+            padding: 20px 0; 
+        }
+        
+        .gift-card {
+            border: 2px solid #eee;
+            border-radius: 12px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+        }
+        .gift-card.selected {
+            border-color: var(--kmart-blue);
+            background-color: #f0faff;
+            box-shadow: 0 4px 12px rgba(38, 179, 241, 0.2);
+        }
+
+        .product-img { 
+            width: 70px; height: 70px; 
+            object-fit: cover; border-radius: 12px; 
+        }
+
+        .address-option {
+            border: 2px solid #eee;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .address-option.selected { 
+            border-color: #28a745; 
+            background-color: #f4fff6;
+        }
+
+        .cart-icon-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+        }
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar - Exact as you gave -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="navbar.html">
+                <span class="logo-k">K</span><span class="logo-mart">mart</span>
+            </a>
+
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="nav">
+                <div class="search-container mx-auto">
+                    <input type="text" id="searchInput" placeholder="Search products..." onkeyup="if(event.key === 'Enter') searchProduct()">
+                    <div class="search-icon" onclick="searchProduct()">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                </div>
+
+                <div class="nav-icons d-flex align-items-center ms-auto">
+                    <i class="fa-solid fa-box" title="My Orders"></i>
+                    <a href="add-to-cart.html" class="cart-icon-wrapper"><i class="fa-solid fa-cart-shopping"></i><span class="cart-badge" id="cartBadge">0</span></a>
+                    <i class="fa-solid fa-gear" title="Settings"></i>
+                    <a href="navbar.html#about-us"><i class="fa-solid fa-circle-info" title="About Us"></i></a>
+                    <a href="navbar.html#contact-us"><i class="fa-solid fa-envelope" title="Contact Us"></i></a>
+
+                    <button onclick="logout()" class="btn btn-logout ms-3 d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Back to Home Button -->
+    <button onclick="window.location.href='navbar.html'" class="back-home-btn">
+        ← Back to Home
+    </button>
+
+<div class="container my-5">
+
+    <div id="cartSection" class="section active">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="checkout-box mb-4">
+                    <h4 class="mb-4 fw-bold">Shopping Cart</h4>
+                    <div id="cart-items"></div>
+                </div>
+
+                <div class="checkout-box mb-4">
+                    <h5 class="fw-bold mb-3">Add a Gift Wrap? 🎁</h5>
+                    <div class="row g-3" id="giftSelectionContainer"></div>
+                    <div class="mt-4">
+                        <label class="form-label fw-bold small text-uppercase text-muted">Gift Message</label>
+                        <textarea id="giftMessage" class="form-control" rows="2" placeholder="Enter a sweet message for your loved ones..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="summary-box sticky-top" style="top: 140px;">
+                    <h5 class="fw-bold mb-3">Order Total</h5>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Time Booking</label>
+                        <select id="deliveryTimeSlot" class="form-select">
+                            <option value="within15">Within 15 minutes</option>
+                            <option value="9-12">09:00 - 12:00</option>
+                            <option value="14-17">14:00 - 17:00</option>
+                            <option value="18-21">18:00 - 21:00</option>
+                        </select>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Items Subtotal</span>
+                        <span id="cartSubtotal">₹0</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2 text-success">
+                        <span>Gifts Total</span>
+                        <span id="cartGiftTotal">₹0</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-4">
+                        <span class="h5 fw-bold">Grand Total</span>
+                        <span class="h5 fw-bold text-primary" id="grandTotal">₹0</span>
+                    </div>
+                    <button class="btn btn-primary w-100 py-3 fw-bold shadow-sm" onclick="goToCheckout()">
+                        PROCEED TO CHECKOUT
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Section -->
+    <div id="checkoutSection" class="section">
+        <div class="row">
+            <!-- Back to Cart Button (Left Side) -->
+            <div class="col-12 mb-3">
+                <button onclick="goBackToCart()" class="btn btn-light border">
+                    ← Back to Cart
+                </button>
+            </div>
+
+            <div class="col-md-8">
+                <div class="checkout-box mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold">Delivery Address</h5>
+                        <button class="btn btn-outline-primary btn-sm rounded-pill" onclick="addNewAddress()">+ New Address</button>
+                    </div>
+                    <div id="savedAddresses"></div>
+                    
+                    <div id="newAddressForm" class="border p-3 rounded bg-light" style="display: none;">
+                        <h6 class="mb-3 fw-bold">New Address Details</h6>
+                        <input id="fullName" class="form-control mb-2" placeholder="Full Name">
+                        <input id="phone" type="tel" maxlength="10" class="form-control mb-2" placeholder="10-Digit Phone Number">
+                        <input id="mainAddress" class="form-control mb-2" placeholder="Flat, House No, Street">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select id="country" class="form-select mb-2" onchange="updateStates()">
+                                    <option value="India">India</option>
+                                    <option value="USA">USA</option>
+                                    <option value="UK">UK</option>
+                                    <option value="Canada">Canada</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select id="state" class="form-select mb-2" onchange="updateDistricts()">
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select id="district" class="form-select mb-2">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input id="village" class="form-control mb-2" placeholder="Village / Area">
+                            </div>
+                            <div class="col-md-6">
+                                <input id="pincode" class="form-control mb-2" placeholder="Pincode">
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-success flex-fill" onclick="saveNewAddress()">Save</button>
+                            <button class="btn btn-secondary flex-fill" onclick="cancelNewAddress()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkout-box mb-4">
+                    <h5 class="fw-bold">Payment Method</h5>
+                    <div class="list-group mt-3">
+                        <label class="list-group-item d-flex gap-3 py-3">
+                            <input class="form-check-input flex-shrink-0" type="radio" name="payment" value="UPI" onclick="openUPI()">
+                            <span><strong class="d-block">UPI Payment</strong><small class="text-muted">Pay using PhonePe, GPay, or Paytm</small></span>
+                        </label>
+                        <label class="list-group-item d-flex gap-3 py-3">
+                            <input class="form-check-input flex-shrink-0" type="radio" name="payment" value="Card" onclick="openCardModal()">
+                            <span><strong class="d-block">Credit / Debit Card</strong><small class="text-muted">All major cards accepted</small></span>
+                        </label>
+                        <label class="list-group-item d-flex gap-3 py-3">
+                            <input class="form-check-input flex-shrink-0" type="radio" name="payment" value="COD" onclick="openCODModal()">
+                            <span><strong class="d-block">Cash on Delivery</strong><small class="text-muted">Pay when you receive the order</small></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="summary-box sticky-top" style="top: 140px;">
+                    <h5 class="fw-bold">Order Summary</h5>
+                    <div id="orderItems" class="small mb-3"></div>
+                    <div class="input-group mb-2">
+                        <input type="text" id="couponCode" class="form-control" placeholder="Coupon">
+                        <button class="btn btn-dark" onclick="applyCoupon()">Apply</button>
+                    </div>
+                    <p id="couponMsg" class="small mb-3"></p>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-1"><span>Subtotal</span><span id="itemsTotal">0</span></div>
+                    <div class="d-flex justify-content-between mb-1"><span>Delivery Charges</span><span id="delivery">50</span></div>
+                    <div id="discountRow" class="d-flex justify-content-between mb-1 text-danger" style="display: none;">
+                        <span><strike>Discount Applied</strike></span>
+                        <span id="discountValue">-₹0</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3 text-primary h5 fw-bold"><span>Total</span><span id="summaryTotal">0</span></div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Time Booking</label>
+                        <select id="checkoutTimeSlot" class="form-select">
+                            <option value="within15">Within 15 minutes</option>
+                            <option value="9-12">09:00 - 12:00</option>
+                            <option value="14-17">14:00 - 17:00</option>
+                            <option value="18-21">18:00 - 21:00</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-success w-100 py-3 fw-bold" id="placeOrderBtn" disabled onclick="placeOrder()">PLACE ORDER</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="successSection" class="section">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <div class="success-box checkout-box">
+                    <div style="font-size: 80px;">✅</div>
+                    <h2 class="fw-bold text-success">Order Confirmed!</h2>
+                    <p class="text-muted">Your package will be with you shortly.</p>
+                    <hr>
+                    <div id="successOrderDetails" class="text-start"></div>
+                    <button class="btn btn-primary w-100 mt-4 py-3" onclick="goHome()">Return to Store</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modals -->
+<div class="modal fade" id="upiModal" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">Scan to Pay</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center pb-5">
+                <div class="qr-container mb-4">
+                    <img id="upiQR" width="200" alt="UPI QR">
+                </div>
+                <h4 class="fw-bold mb-1">₹<span id="upiAmountText">0</span></h4>
+                <p class="text-muted px-4">Open your preferred UPI app and scan the code above to complete payment.</p>
+                <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                <span class="ms-2 text-primary fw-bold">Verifying transaction...</span>
+                <div class="mt-4">
+                    <button class="btn btn-link text-decoration-none text-muted" onclick="confirmUPIPayment()">[ Simulate Success for Demo ]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cardModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="fw-bold">Card Details</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <input id="cardNumber" class="form-control mb-3" placeholder="XXXX XXXX XXXX XXXX">
+                <div class="row">
+                    <div class="col-6"><input id="expiry" class="form-control" placeholder="MM/YY"></div>
+                    <div class="col-6"><input id="cvv" class="form-control" placeholder="CVV"></div>
+                </div>
+                <button class="btn btn-primary w-100 mt-4 py-2" onclick="confirmCardPayment()">Authorize Payment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="codModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center p-4">
+            <h5 class="fw-bold">Confirm Cash on Delivery</h5>
+            <p>Order Total: <span class="fw-bold text-primary h5">₹<span id="codTotal">0</span></span></p>
+            <button class="btn btn-primary w-100 mt-2" onclick="confirmCOD()">Confirm Order</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// ================== CART (from localStorage) ==================
+let cartItems = JSON.parse(localStorage.getItem('kmart_cart') || '[]');
+
+function saveCart() {
+    localStorage.setItem('kmart_cart', JSON.stringify(cartItems));
+    updateTotals();
+}
+
+let giftOptions = [
+    { id: 'g1', name: "Premium Chocolate Box", price: 299, selected: false },
+    { id: 'g2', name: "Flower Bouquet", price: 499, selected: false },
+    { id: 'g3', name: "Birthday Card", price: 99, selected: false }
+];
+
+let savedAddresses = [
+    { id: 1, type: "Home", name: "Rahul Sharma", phone: "9876543210", address: "123, Green Park, MG Road", city: "Vijayawada", state: "Andhra Pradesh", pincode: "520001" }
+];
+
+let selectedAddressId = 1;
+let currentPaymentMethod = null;
+let appliedCoupon = null;
+let discountAmount = 0;
+const coupons = { "SAVE20": 20, "WELCOME50": 50 };
+const deliveryCharges = 50;
+
+const addressData = {
+    "India": {
+        "Andhra Pradesh": ["Guntur", "Krishna", "Prakasam", "East Godavari", "West Godavari", "Visakhapatnam"]
+    }
+};
+
+function updateStates() {
+    const country = document.getElementById("country").value;
+    const stateSelect = document.getElementById("state");
+    stateSelect.innerHTML = '<option value="">Select State</option>';
+    if (addressData[country]) {
+        Object.keys(addressData[country]).forEach(state => {
+            stateSelect.innerHTML += `<option value="${state}">${state}</option>`;
+        });
+    }
+    updateDistricts();
+}
+
+function updateDistricts() {
+    const country = document.getElementById("country").value;
+    const state = document.getElementById("state").value;
+    const districtSelect = document.getElementById("district");
+    districtSelect.innerHTML = '<option value="">Select District</option>';
+    if (addressData[country] && addressData[country][state]) {
+        addressData[country][state].forEach(district => {
+            districtSelect.innerHTML += `<option value="${district}">${district}</option>`;
+        });
+    }
+}
+
+function addNewAddress() {
+    document.getElementById("newAddressForm").style.display = "block";
+    document.getElementById("country").value = "India";
+    updateStates();
+    document.getElementById("state").value = "Andhra Pradesh";
+    updateDistricts();
+    document.getElementById("district").value = "Guntur";
+}
+
+function saveNewAddress() {
+    const fullName = document.getElementById("fullName").value || "New User";
+    const phone = document.getElementById("phone").value || "0000000000";
+    const mainAddress = document.getElementById("mainAddress").value || "Address";
+    const district = document.getElementById("district").value || "Guntur";
+    const village = document.getElementById("village").value || "";
+    const pincode = document.getElementById("pincode").value || "520001";
+
+    const newAddr = {
+        id: Date.now(),
+        type: "Home",
+        name: fullName,
+        phone: phone,
+        address: mainAddress + (village ? ", " + village : ""),
+        city: district,
+        state: document.getElementById("state").value,
+        pincode: pincode
+    };
+
+    savedAddresses.push(newAddr);
+    selectedAddressId = newAddr.id;
+    renderSavedAddresses();
+    document.getElementById("newAddressForm").style.display = "none";
+    alert("Address saved and selected!");
+}
+
+function cancelNewAddress() {
+    document.getElementById("newAddressForm").style.display = "none";
+}
+
+function renderSavedAddresses() {
+    const container = document.getElementById("savedAddresses");
+    container.innerHTML = "";
+    savedAddresses.forEach(addr => {
+        container.innerHTML += `
+            <div class="address-option ${addr.id === selectedAddressId ? 'selected' : ''}" onclick="selectedAddressId=${addr.id}; renderSavedAddresses()">
+                <div class="d-flex justify-content-between">
+                    <span class="badge bg-primary mb-2">${addr.type}</span>
+                    <input type="radio" ${addr.id === selectedAddressId ? 'checked' : ''}>
+                </div>
+                <h6 class="fw-bold mb-1">${addr.name}</h6>
+                <p class="small text-muted mb-0">${addr.address}, ${addr.city}</p>
+                <small>📞 ${addr.phone}</small>
+            </div>
+        `;
+    });
+}
+
+// Rest of your original functions (unchanged)
+function renderGiftSelection() {
+    const container = document.getElementById("giftSelectionContainer");
+    container.innerHTML = "";
+    giftOptions.forEach((gift, index) => {
+        container.innerHTML += `
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="gift-card ${gift.selected ? 'selected' : ''}" onclick="toggleGift(${index})">
+                    <div class="form-check d-flex justify-content-center align-items-center mb-2">
+                        <input class="form-check-input" type="checkbox" ${gift.selected ? 'checked' : ''}>
+                        <label class="form-check-label fw-bold ms-2">${gift.name}</label>
+                    </div>
+                    <div class="text-primary fw-bold">₹${gift.price}</div>
+                </div>
+            </div>
+        `;
+    });
+    updateTotals();
+}
+
+function toggleGift(index) {
+    giftOptions[index].selected = !giftOptions[index].selected;
+    renderGiftSelection();
+}
+
+function updateCartBadge() {
+    const cart = JSON.parse(localStorage.getItem('kmart_cart') || '[]');
+    const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    const badge = document.getElementById('cartBadge');
+    if (badge) badge.innerText = count;
+}
+
+function renderCart() {
+    const container = document.getElementById("cart-items");
+    container.innerHTML = "";
+    if (!cartItems || cartItems.length === 0) {
+        container.innerHTML = `<div class="text-center p-4 text-muted">Your cart is empty. Add items from the store.</div>`;
+        updateTotals();
+        return;
+    }
+
+    cartItems.forEach((item, index) => {
+        container.innerHTML += `
+            <div class="cart-item d-flex align-items-center">
+                <img src="${item.img}" class="product-img me-3">
+                <div class="flex-grow-1">
+                    <h6 class="mb-0 fw-bold">${item.name}</h6>
+                    <small class="text-muted">₹${item.price}</small>
+                </div>
+                <div class="d-flex align-items-center me-3">
+                    <button class="btn btn-sm btn-light border" onclick="changeQty(${index}, -1)">-</button>
+                    <span class="mx-2">${item.quantity}</span>
+                    <button class="btn btn-sm btn-light border" onclick="changeQty(${index}, 1)">+</button>
+                </div>
+                <div class="fw-bold me-3">₹${item.price * item.quantity}</div>
+                <button class="btn btn-sm text-danger" onclick="removeItem(${index})">✕</button>
+            </div>
+        `;
+    });
+    updateTotals();
+}
+
+function changeQty(index, delta) {
+    cartItems[index].quantity = Math.max(1, cartItems[index].quantity + delta);
+    saveCart();
+    renderCart();
+}
+
+function removeItem(index) {
+    cartItems.splice(index, 1);
+    saveCart();
+    renderCart();
+}
+
+function updateTotals() {
+    // Calculate base amounts
+    let subtotal = (cartItems && cartItems.length) ? cartItems.reduce((s, i) => s + (i.price * i.quantity), 0) : 0;
+    let giftTotal = giftOptions.filter(g => g.selected).reduce((s, g) => s + g.price, 0);
+    let totalBeforeDiscount = subtotal + giftTotal;
+    
+    // Calculate discount (applied to items + gifts)
+    discountAmount = appliedCoupon ? Math.floor((totalBeforeDiscount * appliedCoupon) / 100) : 0;
+    
+    // Final total = Items + Gifts - Discount + Delivery
+    let finalTotal = totalBeforeDiscount - discountAmount + deliveryCharges;
+    
+    // Update Cart Section
+    document.getElementById("cartSubtotal").innerText = `₹${subtotal}`;
+    document.getElementById("cartGiftTotal").innerText = `₹${giftTotal}`;
+    document.getElementById("grandTotal").innerText = `₹${totalBeforeDiscount}`;
+    
+    // Update Checkout Section
+    document.getElementById("itemsTotal").innerText = `₹${totalBeforeDiscount}`;
+    document.getElementById("delivery").innerText = `₹${deliveryCharges}`;
+    document.getElementById("summaryTotal").innerText = `₹${finalTotal}`;
+}
+
+function goToCheckout() {
+    if (cartItems.length === 0) return alert("Cart is empty!");
+    document.getElementById("cartSection").classList.remove("active");
+    document.getElementById("checkoutSection").classList.add("active");
+    renderSavedAddresses();
+}
+
+function goBackToCart() {
+    document.getElementById("checkoutSection").classList.remove("active");
+    document.getElementById("cartSection").classList.add("active");
+}
+
+function openUPI() {
+    const total = document.getElementById("summaryTotal").innerText.replace("₹", "");
+    document.getElementById("upiAmountText").innerText = total;
+    document.getElementById("upiQR").src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=kmart@upi&am=${total}`;
+    new bootstrap.Modal(document.getElementById('upiModal')).show();
+}
+
+function confirmUPIPayment() {
+    currentPaymentMethod = "UPI";
+    bootstrap.Modal.getInstance(document.getElementById('upiModal')).hide();
+    document.getElementById("placeOrderBtn").disabled = false;
+    alert("Payment Received! You can now place the order.");
+}
+
+function openCardModal() { new bootstrap.Modal(document.getElementById('cardModal')).show(); }
+function confirmCardPayment() {
+    currentPaymentMethod = "Card";
+    bootstrap.Modal.getInstance(document.getElementById('cardModal')).hide();
+    document.getElementById("placeOrderBtn").disabled = false;
+}
+
+function openCODModal() { 
+    document.getElementById("codTotal").innerText = document.getElementById("summaryTotal").innerText.replace("₹", "");
+    new bootstrap.Modal(document.getElementById('codModal')).show(); 
+}
+function confirmCOD() {
+    currentPaymentMethod = "COD";
+    bootstrap.Modal.getInstance(document.getElementById('codModal')).hide();
+    document.getElementById("placeOrderBtn").disabled = false;
+}
+
+function placeOrder() {
+    // Prepare all data BEFORE clearing cart
+    const chosenSlot = document.getElementById('checkoutTimeSlot') ? document.getElementById('checkoutTimeSlot').selectedOptions[0].text : '';
+    let giftText = giftOptions.filter(g => g.selected).map(g => `${g.name} (₹${g.price})`).join(', ') || 'None';
+    let giftMessage = document.getElementById('giftMessage').value || 'No message';
+    
+    // Calculate totals
+    let subtotal = (cartItems && cartItems.length) ? cartItems.reduce((s, i) => s + (i.price * i.quantity), 0) : 0;
+    let giftTotal = giftOptions.filter(g => g.selected).reduce((s, g) => s + g.price, 0);
+    let totalBeforeDiscount = subtotal + giftTotal;
+    discountAmount = appliedCoupon ? Math.floor((totalBeforeDiscount * appliedCoupon) / 100) : 0;
+    let finalTotal = totalBeforeDiscount - discountAmount + deliveryCharges;
+    
+    // Store items HTML before clearing cart
+    let itemsHTML = cartItems.map(i => `<li>${i.name} x ${i.quantity} — ₹${i.price * i.quantity}</li>`).join('');
+    
+    let html = `
+        <p><strong>Payment Method:</strong> ${currentPaymentMethod}</p>
+        <p><strong>Delivery Slot:</strong> ${chosenSlot}</p>
+        <hr>
+        <p><strong>Items Total:</strong> ₹${subtotal}</p>
+        <p><strong>Gifts Total:</strong> ₹${giftTotal}</p>
+        ${discountAmount > 0 ? `<p class="text-danger"><strong>Discount (${appliedCoupon}%):</strong> -₹${discountAmount}</p>` : ''}
+        <p><strong>Delivery Charges:</strong> ₹${deliveryCharges}</p>
+        <hr>
+        <p class="text-success h5"><strong>Grand Total:</strong> ₹${finalTotal}</p>
+        <hr>
+        <p><strong>Gifts Selected:</strong> ${giftText}</p>
+        ${giftText !== 'None' ? `<p><strong>Gift Message:</strong> <em>"${giftMessage}"</em></p>` : ''}
+        <h6 class="mt-4">Items Ordered:</h6>
+        <ul>
+            ${itemsHTML}
+        </ul>
+    `;
+    
+    // Save order to localStorage BEFORE clearing cart
+    const orderId = 'ORD' + Date.now().toString().slice(-6);
+    const newOrder = {
+        id: orderId,
+        status: 'pending',
+        date: new Date().toISOString(),
+        items: cartItems.map(item => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            image: item.image
+        })),
+        subtotal: subtotal,
+        giftTotal: giftTotal,
+        discount: discountAmount,
+        delivery: deliveryCharges,
+        total: finalTotal,
+        paymentMethod: currentPaymentMethod,
+        deliverySlot: chosenSlot,
+        giftMessage: giftMessage,
+        appliedCoupon: appliedCoupon
+    };
+    
+    const existingOrders = JSON.parse(localStorage.getItem('kmart_orders') || '[]');
+    existingOrders.push(newOrder);
+    localStorage.setItem('kmart_orders', JSON.stringify(existingOrders));
+    
+    // NOW switch sections and display
+    document.getElementById("checkoutSection").classList.remove("active");
+    document.getElementById("successSection").classList.add("active");
+    document.getElementById("successOrderDetails").innerHTML = html;
+    
+    // Clear cart AFTER using the data
+    cartItems = [];
+    appliedCoupon = null;
+    discountAmount = 0;
+    saveCart();
+}
+
+function applyCoupon() {
+    const code = document.getElementById("couponCode").value.toUpperCase();
+    if (coupons[code]) {
+        appliedCoupon = coupons[code];
+        let subtotal = (cartItems && cartItems.length) ? cartItems.reduce((s, i) => s + (i.price * i.quantity), 0) : 0;
+        let giftTotal = giftOptions.filter(g => g.selected).reduce((s, g) => s + g.price, 0);
+        let totalBeforeDiscount = subtotal + giftTotal;
+        discountAmount = Math.floor((totalBeforeDiscount * appliedCoupon) / 100);
+        
+        document.getElementById("couponMsg").innerHTML = `✅ ${appliedCoupon}% Discount Applied! (Save ₹${discountAmount})`;
+        document.getElementById("couponMsg").className = "small text-success";
+        document.getElementById("discountRow").style.display = "flex";
+        document.getElementById("discountValue").innerText = `-₹${discountAmount}`;
+        updateTotals();
+    } else {
+        document.getElementById("couponMsg").innerText = "❌ Invalid Coupon";
+        document.getElementById("couponMsg").className = "small text-danger";
+        appliedCoupon = null;
+        discountAmount = 0;
+        document.getElementById("discountRow").style.display = "none";
+        updateTotals();
+    }
+}
+
+function goHome() { 
+    window.location.href = "navbar.html"; 
+}
+
+function logout() {
+    if (confirm("Are you sure you want to logout?")) window.location.href = "login.html";
+}
+
+function searchProduct() {
+    let input = document.getElementById("searchInput").value.toLowerCase().trim();
+    
+    const categories = {
+        "electronics": "electronics.html",
+        "electronic": "electronics.html",
+        "gadgets": "electronics.html",
+        "phone": "electronics.html",
+        "laptop": "electronics.html",
+        "earbuds": "electronics.html",
+        
+        "women": "womens.html",
+        "woman": "womens.html",
+        "womens": "womens.html",
+        "dress": "womens.html",
+        "saree": "womens.html",
+        "fashion": "womens.html",
+        
+        "men": "mens.html",
+        "man": "mens.html",
+        "mens": "mens.html",
+        "shirt": "mens.html",
+        "pants": "mens.html",
+        
+        "kids": "kids.html",
+        "kid": "kids.html",
+        "children": "kids.html",
+        "toys": "toys.html",
+        "toy": "toys.html",
+        "game": "toys.html",
+        
+        "groceries": "groceries.html",
+        "grocery": "groceries.html",
+        "food": "groceries.html",
+        "grains": "groceries.html",
+        
+        "vegetables": "vegetables.html",
+        "vegetable": "vegetables.html",
+        "fruits": "vegetables.html",
+        "fruit": "vegetables.html",
+        "organic": "vegetables.html",
+        
+        "drinks": "drinks.html",
+        "drink": "drinks.html",
+        "beverages": "drinks.html",
+        "coffee": "drinks.html",
+        "juice": "drinks.html",
+        "water": "drinks.html"
+    };
+
+    if (input === "") {
+        alert("Please enter a search term!");
+        return;
+    }
+
+    let foundPage = null;
+    
+    if (categories[input]) {
+        foundPage = categories[input];
+    } else {
+        for (let key in categories) {
+            if (key.includes(input) || input.includes(key)) {
+                foundPage = categories[key];
+                break;
+            }
+        }
+    }
+
+    if (foundPage) {
+        window.location.href = foundPage;
+    } else {
+        alert("Sorry, '" + input + "' is not found ❌\n\nAvailable categories:\n- Electronics\n- Women\n- Men\n- Kids\n- Toys\n- Groceries\n- Vegetables\n- Drinks");
+    }
+    
+    document.getElementById("searchInput").value = "";
+}
+
+window.onload = () => {
+    updateCartBadge();
+    renderCart();
+    renderGiftSelection();
+};
+</script>
+
+
+</body>
+</html>
