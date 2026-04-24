@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<title>Kids - Kmart</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    body {
+        background: #f8fafc;
+        font-family: Arial, sans-serif;
+        padding-top: 88px; /* Space for fixed navbar */
+    }
+
+    /* Exact Navbar from main Kmart page */
+    .navbar {
+        background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 12px 0;
+    }
+    .navbar-brand {
+        font-size: 2.4rem;
+        font-weight: 900;
+        letter-spacing: -2px;
+    }
+    .logo-k { color: #e60000; }
+    .logo-mart { color: #ffffff; }
+
+    .search-container {
+        position: relative;
+        width: 460px;
+        max-width: 100%;
+    }
+    .search-container input {
+        width: 100%;
+        padding: 14px 50px 14px 20px;
+        border-radius: 50px;
+        border: none;
+        background: #ffffff;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        font-size: 1.05rem;
+    }
+    .search-icon {
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.4rem;
+        color: #0ea5e9;
+        cursor: pointer;
+    }
+    .search-icon:hover { color: #e60000; }
+
+    .nav-icons i {
+        font-size: 26px;
+        margin-left: 22px;
+        color: #ffffff;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    .nav-icons i:hover {
+        color: #e60000;
+        transform: scale(1.15);
+    }
+
+    .btn-logout {
+        background: #ffffff;
+        color: #0ea5e9;
+        border-radius: 50px;
+        padding: 8px 24px;
+        font-weight: 600;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s;
+    }
+    .btn-logout:hover {
+        background: #e60000;
+        color: #ffffff;
+        transform: translateY(-2px);
+    }
+
+    .cart-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #ef4444;
+        color: white;
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: bold;
+        z-index: 10;
+    }
+
+    .cart-icon-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Back to Home Button */
+    .back-home-btn {
+        position: fixed;
+        top: 100px;
+        right: 30px;
+        z-index: 1000;
+        background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transition: all 0.3s;
+    }
+    .back-home-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(14,165,233,0.4);
+    }
+
+    /* Card */
+    .product-card {
+        background: white;
+        border-radius: 15px;
+        padding: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: 0.3s;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Image Alignment */
+    .img-box {
+        width: 100%;
+        height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f5f9;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .img-box img {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+    }
+
+    /* Text */
+    .price {
+        color: #0ea5e9;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+    .original-price {
+        text-decoration: line-through;
+        color: gray;
+    }
+
+    /* Quantity */
+    .quantity-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 10px 0;
+    }
+    .quantity-btn {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        border: 2px solid #0ea5e9;
+        background: white;
+    }
+    .quantity-display {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    /* Purple-Pink Add to Cart Button */
+    .add-to-cart {
+        width: 100%;
+        background: linear-gradient(135deg, #8b00ff, #ff00cc);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 1.05rem;
+        margin-top: 8px;
+        transition: all 0.3s;
+        box-shadow: 0 4px 12px rgba(139, 0, 255, 0.3);
+    }
+    .add-to-cart:hover {
+        background: linear-gradient(135deg, #ff00cc, #8b00ff);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(139, 0, 255, 0.4);
+    }
+</style>
+</head>
+<body>
+
+<!-- Exact Navbar from main Kmart page -->
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="kmart.html">
+            <span class="logo-k">K</span><span class="logo-mart">mart</span>
+        </a>
+
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+            <div class="search-container mx-auto">
+                <input type="text" id="searchInput" placeholder="Search products...">
+                <div class="search-icon" onclick="searchProduct()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+
+            <div class="nav-icons d-flex align-items-center ms-auto">
+                <i class="fa-solid fa-box" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Orders"></i>
+                <a href="add to cart.html" class="cart-icon-wrapper">
+                    <i class="fa-solid fa-cart-shopping" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cart"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </a>
+                <a href="settings.html"><i class="fa-solid fa-gear" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Settings"></i></a>
+                <a href="navbar.html#about-us"><i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="About Us"></i></a>
+                    <a href="navbar.html#contact-us"><i class="fa-solid fa-envelope" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Contact Us"></i></a>
+
+                <button onclick="logout()" class="btn btn-logout ms-3 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Back to Home Button - UPDATED to navbar.html -->
+<button onclick="window.location.href='navbar.html'" class="back-home-btn">
+    ← Back to Home
+</button>
+
+<div class="container mt-5 pt-4">
+    <h2>Kids 👶</h2>
+    <div class="row" id="productGrid"></div>
+</div>
+
+<script>
+const products = [
+    { img: "https://images.cbazaar.com/images/blended-cotton-embroidered-kids-girls-anarkali-suit-kdgnurc2017-u.jpg", title: "Girls Party Anarkali Dress", price: 599, original: 899, unit: "piece" },
+    { img: "https://www.todlerry.in/cdn/shop/files/17_a21a8d86-2fcd-427e-9cea-6bd318789d72.png?v=1760357601&width=1445", title: "Boys Cotton T-Shirt", price: 349, original: 499, unit: "piece" },
+    { img: "https://cpimg.tistatic.com/6172264/b/1/kids-denim-jacket.jpg", title: "Kids Denim Jacket", price: 699, original: 999, unit: "piece" },
+    { img: "https://m.media-amazon.com/images/I/71qQhNVad0L._AC_UY1100_.jpg", title: "Boys Winter Hoodie", price: 799, original: 1199, unit: "piece" },
+    { img: "https://possessif.com/cdn/shop/files/Untitled-2.png?v=1728814820&width=1946", title: "Kids Full Sleeve Shirt", price: 449, original: 699, unit: "piece" },
+    { img: "https://www.mumkins.in/cdn/shop/files/frock-for-girls-gs172718-onion-model-image.jpg?v=1757336880&width=1080", title: "Girls Floral Frocks", price: 549, original: 799, unit: "piece" },
+    { img: "https://mysportsjersey.in/wp-content/uploads/2023/09/2023-Kids-India-Dress.webp", title: "Kids Sports Dress", price: 799, original: 1099, unit: "pair" },
+    { img: "https://www.thenesavu.com/cdn/shop/files/nesavu-boys-printed-cotton-casual-set-with-jeans-style-trousers-everyday-smart-wear-boys-casual-set-16-1y-blue-thenesavu-bes902a-16-nesavu-boys-digitally-printed-cotton-casual-wear-trendy-shirt-pants-combo-1219826690.jpg?v=1770799569&width=1080", title: "Boys Casual Jeans", price: 499, original: 749, unit: "piece" },
+    { img: "https://media-us.landmarkshops.in/cdn-cgi/image/h=831,w=615,q=85,fit=cover/max-new/1000013378459-Blue-NAVY-1000013378459_014-2100.jpg", title: "Girls Leggings Set", price: 399, original: 599, unit: "set" },
+    { img: "https://i5.walmartimages.com/seo/2DXuixsh-Toddler-Jackets-Boys-5T-Children-Winter-Boy-Jacket-Coat-Hooded-Coat-Fashion-Kids-Warm-Clothes-Jacket-Boys-Coat-Jacket-Coats-Toddlers-Boys-Po_017bbee4-18bd-4d6d-9630-7ed498e77b01.23e678b437044e17b8458f340f68b837.jpeg", title: "Kids Winter Jacket", price: 899, original: 1299, unit: "piece" }
+];
+
+function renderProducts() {
+    const container = document.getElementById("productGrid");
+    container.innerHTML = "";
+
+    products.forEach(p => {
+        container.innerHTML += `
+        <div class="col-md-3 mb-4">
+            <div class="product-card text-center">
+
+                <div class="img-box">
+                    <img src="${p.img}">
+                </div>
+
+                <h6 class="mt-2">${p.title}</h6>
+
+                <div>
+                    <span class="price">₹${p.price}/${p.unit}</span><br>
+                    <span class="original-price">₹${p.original}</span>
+                </div>
+
+                <div class="quantity-container">
+                    <button onclick="changeQty(this,-1)">-</button>
+                    <span class="quantity-display">0</span>
+                    <button onclick="changeQty(this,1)">+</button>
+                </div>
+
+                <button class="add-to-cart" onclick="addToCart(this)">
+                    Add to Cart
+                </button>
+
+            </div>
+        </div>`;
+    });
+}
+
+function changeQty(btn, change) {
+    let qty = btn.parentElement.querySelector(".quantity-display");
+    let value = parseInt(qty.innerText);
+    value = Math.max(0, value + change);
+    qty.innerText = value;
+}
+
+function addToCart(btn) {
+    const card = btn.closest('.product-card') || btn.parentElement;
+    const titleEl = card.querySelector('.product-title') || card.querySelector('h6');
+    const title = titleEl ? titleEl.innerText.trim() : 'Product';
+    const priceEl = card.querySelector('.price');
+    const price = priceEl ? parseInt(priceEl.innerText.replace(/[^\d]/g, '')) : 0;
+    const imgEl = card.querySelector('img');
+    const img = imgEl ? imgEl.src : '';
+    const qtySpan = card.querySelector('.quantity-display');
+    const qty = qtySpan ? (parseInt(qtySpan.innerText) || 0) : 1;
+
+    if (qty === 0) { alert('Please select quantity using + button first'); return; }
+
+    const cart = JSON.parse(localStorage.getItem('kmart_cart') || '[]');
+    const existing = cart.find(i => i.name === title && i.price === price);
+    if (existing) existing.quantity += qty; else cart.push({ name: title, price: price, quantity: qty, img: img });
+    localStorage.setItem('kmart_cart', JSON.stringify(cart));
+    updateCartBadge();
+    
+    const originalText = btn.innerHTML;
+    btn.innerHTML = `<i class="fa-solid fa-check"></i> Added to Cart!`;
+    btn.style.background = '#10b981';
+    
+    setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.background = '';
+        const qtySpan = btn.parentElement.querySelector('.quantity-display');
+        if (qtySpan) qtySpan.innerText = 0;
+    }, 1500);
+}
+
+function searchProduct() {
+    let input = document.getElementById("searchInput").value.toLowerCase().trim();
+    alert("Search not implemented in this category page.");
+}
+
+function updateCartBadge() {
+    const cart = JSON.parse(localStorage.getItem('kmart_cart') || '[]');
+    const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    const badge = document.getElementById('cartBadge');
+    if (badge) badge.innerText = count;
+}
+
+function logout() {
+    if(confirm("Are you sure you want to logout?")) {
+        window.location.href = "login.html";
+    }
+}
+
+window.onload = () => {
+    renderProducts();
+    updateCartBadge();
+};
+</script>
+
+
+</body>
+</html>

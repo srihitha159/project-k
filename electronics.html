@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>Electronics - Kmart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 88px;
+        }
+
+        /* Navbar - Same as Vegetables & Drinks */
+        .navbar {
+            background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 12px 0;
+        }
+        .navbar-brand {
+            font-size: 2.4rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
+        .logo-k { color: #e60000; }
+        .logo-mart { color: #ffffff; }
+
+        .search-container {
+            position: relative;
+            width: 460px;
+            max-width: 100%;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 14px 50px 14px 20px;
+            border-radius: 50px;
+            border: none;
+            background: #ffffff;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            font-size: 1.05rem;
+        }
+        .search-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.4rem;
+            color: #0ea5e9;
+            cursor: pointer;
+        }
+        .search-icon:hover { color: #e60000; }
+
+        .nav-icons i {
+            font-size: 26px;
+            margin-left: 22px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .nav-icons i:hover {
+            color: #e60000;
+            transform: scale(1.15);
+        }
+
+        .btn-logout {
+            background: #ffffff;
+            color: #0ea5e9;
+            border-radius: 50px;
+            padding: 8px 24px;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        .btn-logout:hover {
+            background: #e60000;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .back-home-btn {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            z-index: 1000;
+            background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+        }
+        .back-home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(14,165,233,0.4);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .cart-icon-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Product Styles */
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .img-box {
+            width: 100%;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f5f9;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .img-box img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+        .price {
+            color: #0ea5e9;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .original-price {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .quantity-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .quantity-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid #0ea5e9;
+            background: white;
+        }
+        .add-to-cart {
+            width: 100%;
+            background: linear-gradient(135deg, #8b00ff, #ff00cc);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-top: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(139, 0, 255, 0.3);
+        }
+        .add-to-cart:hover {
+            background: linear-gradient(135deg, #ff00cc, #8b00ff);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(139, 0, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="navbar.html">
+                <span class="logo-k">K</span><span class="logo-mart">mart</span>
+            </a>
+
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="nav">
+                <div class="search-container mx-auto">
+                    <input type="text" id="searchInput" placeholder="Search electronics..." onkeyup="if(event.key === 'Enter') searchProduct()">
+                    <div class="search-icon" onclick="searchProduct()">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                </div>
+
+                <div class="nav-icons d-flex align-items-center ms-auto">
+                    <i class="fa-solid fa-box" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Orders"></i>
+                    <a href="add to cart.html" class="cart-icon-wrapper">
+                        <i class="fa-solid fa-cart-shopping" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cart"></i>
+                        <span class="cart-badge" id="cartBadge">0</span>
+                    </a>
+                    <a href="settings.html"><i class="fa-solid fa-gear" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Settings"></i></a>
+                    <a href="navbar.html#about-us"><i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="About Us"></i></a>
+                    <a href="navbar.html#contact-us"><i class="fa-solid fa-envelope" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Contact Us"></i></a>
+
+                    <button onclick="logout()" class="btn btn-logout ms-3 d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Back to Home Button -->
+    <button onclick="window.location.href='navbar.html'" class="back-home-btn">
+        ← Back to Home
+    </button>
+
+    <div class="container mt-5 pt-4">
+        <div class="mb-4">
+            <h1 class="page-title">Electronics 📱</h1>
+            <p class="text-muted fs-5">Latest gadgets & appliances at best prices</p>
+        </div>
+
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4" id="productGrid"></div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, img:"https://m.media-amazon.com/images/I/71xb2xkN5qL._SL1500_.jpg", title:"Smartphone", price:15000, original:18000, unit:"piece" },
+            { id: 2, img:"https://m.media-amazon.com/images/I/71jG+e7roXL._SL1500_.jpg", title:"Laptop", price:55000, original:65000, unit:"piece" },
+            { id: 3, img:"https://m.media-amazon.com/images/I/81Zt42ioCgL._SL1500_.jpg", title:"LED TV", price:30000, original:38000, unit:"piece" },
+            { id: 4, img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHJwDCMikhigQmyL5twmCJ8tDpJuTfJpc53w&s", title:"Headphones", price:1500, original:2200, unit:"piece" },
+            { id: 5, img:"https://m.media-amazon.com/images/I/71TPda7cwUL._SL1500_.jpg", title:"Smart Watch", price:2500, original:3500, unit:"piece" },
+            { id: 6, img:"https://m.media-amazon.com/images/I/61LtuGzXeaL._SL1500_.jpg", title:"Bluetooth Speaker", price:1800, original:2500, unit:"piece" },
+            { id: 7, img:"https://m.media-amazon.com/images/I/61CGHv6kmWL._SL1500_.jpg", title:"Power Bank", price:1200, original:1700, unit:"piece" },
+            { id: 8, img:"https://m.media-amazon.com/images/I/61s8vyZLSzL._SL1500_.jpg", title:"Wireless Mouse", price:600, original:900, unit:"piece" },
+            { id: 9, img:"https://m.media-amazon.com/images/I/61s8vyZLSzL._SL1500_.jpg", title:"Keyboard", price:800, original:1200, unit:"piece" },
+            { id: 10, img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0kviFnsNZiE09s4bAFGEEoWYcDZRFnWlR-Q&s", title:"USB Pendrive", price:500, original:750, unit:"piece" }
+        ];
+
+        function renderProducts(filteredProducts) {
+            const container = document.getElementById('productGrid');
+            container.innerHTML = '';
+
+            filteredProducts.forEach(product => {
+                const cardHTML = `
+                    <div class="col">
+                        <div class="product-card text-center">
+                            <div class="img-box">
+                                <img src="${product.img}" alt="${product.title}">
+                            </div>
+                            <h6 class="mt-2">${product.title}</h6>
+                            <div>
+                                <span class="price">₹${product.price}</span>
+                                <span class="original-price ms-2">₹${product.original}</span>
+                                <small class="text-muted d-block">per ${product.unit}</small>
+                            </div>
+                            <div class="quantity-container">
+                                <button class="quantity-btn" onclick="changeQuantity(this, -1)">–</button>
+                                <span class="quantity-display">0</span>
+                                <button class="quantity-btn" onclick="changeQuantity(this, 1)">+</button>
+                            </div>
+                            <button class="btn add-to-cart" onclick="addToCart(this)">
+                                <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>`;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        function changeQuantity(btn, change) {
+            const qtySpan = btn.parentElement.querySelector('.quantity-display');
+            let qty = parseInt(qtySpan.innerText) || 0;
+            qty = Math.max(0, qty + change);
+            qtySpan.innerText = qty;
+        }
+
+        function addToCart(btn) {
+            const card = btn.closest('.product-card') || btn.parentElement;
+            const titleEl = card.querySelector('.product-title') || card.querySelector('h6');
+            const title = titleEl ? titleEl.innerText.trim() : 'Product';
+            const priceEl = card.querySelector('.price');
+            const price = priceEl ? parseInt(priceEl.innerText.replace(/[^\d]/g, '')) : 0;
+            const imgEl = card.querySelector('img');
+            const img = imgEl ? imgEl.src : '';
+            const qtySpan = card.querySelector('.quantity-display');
+            const qty = qtySpan ? (parseInt(qtySpan.innerText) || 0) : 1;
+
+            if (qty === 0) { alert('Please select quantity using + button first'); return; }
+
+            const cart = JSON.parse(localStorage.getItem('kmart_cart') || '[]');
+            const existing = cart.find(i => i.name === title && i.price === price);
+            if (existing) existing.quantity += qty; else cart.push({ name: title, price: price, quantity: qty, img: img });
+            localStorage.setItem('kmart_cart', JSON.stringify(cart));
+            updateCartBadge();
+            
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-check"></i> Added to Cart!`;
+            btn.style.background = '#10b981';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = '';
+                qtySpan.innerText = 0;
+            }, 1500);
+        }
+
+        function searchProduct() {
+            const query = document.getElementById("searchInput").value.trim().toLowerCase();
+            if (!query) {
+                renderProducts(products);
+                return;
+            }
+
+            const filtered = products.filter(p => p.title.toLowerCase().includes(query));
+            if (filtered.length > 0) {
+                renderProducts(filtered);
+            } else {
+                alert(`No electronics found for "${query}"`);
+            }
+        }
+
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('kmart_cart') || '[]');
+            const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            const badge = document.getElementById('cartBadge');
+            if (badge) badge.innerText = count;
+        }
+
+        function logout() {
+            if (confirm("Are you sure you want to logout?")) {
+                window.location.href = "login.html";
+            }
+        }
+
+        window.onload = () => {
+            renderProducts(products);
+            updateCartBadge();
+        };
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>Kmart Settings</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        html { scroll-behavior: smooth; }
+
+        /* Navbar Styles */
+        .navbar {
+            background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 12px 0;
+        }
+        .navbar-brand {
+            font-size: 2.4rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
+        .logo-k { color: #e60000; }
+        .logo-mart { color: #ffffff; }
+
+        .search-container {
+            position: relative;
+            width: 460px;
+            max-width: 100%;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 14px 50px 14px 20px;
+            border-radius: 50px;
+            border: none;
+            background: #ffffff;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            font-size: 1.05rem;
+            transition: all 0.3s;
+        }
+        .search-container input:focus {
+            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);
+            transform: scale(1.02);
+        }
+        .search-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.4rem;
+            color: #0ea5e9;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .search-icon:hover { color: #e60000; }
+
+        .nav-icons i {
+            font-size: 26px;
+            margin-left: 22px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .nav-icons i:hover {
+            color: #e60000;
+            transform: scale(1.15);
+        }
+
+        .cart-icon-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+        }
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .btn-logout {
+            background: #ffffff;
+            color: #0ea5e9;
+            border-radius: 50px;
+            padding: 8px 24px;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        .btn-logout:hover {
+            background: #e60000;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* Body and Back Button */
+        body {
+            background: #f4f6f9;
+            font-family: 'Inter', sans-serif;
+            padding-top: 88px;
+        }
+
+        /* Settings Content Styles */
+        h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+            color: #e0f2fe;
+            min-height: calc(100vh - 88px);
+            padding-top: 30px;
+        }
+
+        .menu-item {
+            border-radius: 10px;
+            cursor: pointer;
+            padding: 15px 18px;
+            color: #e0f2fe;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+            border-left: 4px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-left-color: #38bdf8;
+            padding-left: 20px;
+        }
+
+        .menu-item.active {
+            background: linear-gradient(90deg, rgba(56, 189, 248, 0.2), rgba(56, 189, 248, 0.1));
+            color: #38bdf8;
+            font-weight: 600;
+            box-shadow: inset 0 0 12px rgba(56, 189, 248, 0.3);
+            border-left-color: #38bdf8;
+        }
+
+        .profile-photo-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .camera-overlay {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: #2563eb;
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .camera-overlay:hover {
+            background: #1d4ed8;
+            transform: scale(1.1);
+        }
+
+        .content-section {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid #e0e7ff;
+            padding: 12px 16px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            border-color: #0ea5e9;
+        }
+
+        .form-select {
+            border-radius: 10px;
+            border: 1px solid #e0e7ff;
+            padding: 12px 16px;
+            transition: all 0.3s;
+        }
+
+        .form-select:focus {
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            border-color: #0ea5e9;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 28px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(14, 165, 233, 0.3);
+        }
+
+        .btn-danger {
+            border-radius: 10px;
+            padding: 12px 28px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-warning {
+            border-radius: 10px;
+            padding: 12px 28px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(217, 119, 6, 0.3);
+        }
+
+        .card {
+            border: 1px solid #e0e7ff;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .form-switch .form-check-input {
+            width: 2.5em;
+            height: 1.5em;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .form-switch .form-check-input:checked {
+            background-color: #0ea5e9;
+            border-color: #0ea5e9;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="navbar.html">
+            <span class="logo-k">K</span><span class="logo-mart">mart</span>
+        </a>
+
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+            <div class="search-container mx-auto">
+                <input type="text" id="searchInput" placeholder="Search products..." onkeyup="if(event.key === 'Enter') searchProduct()">
+                <div class="search-icon" onclick="searchProduct()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+
+            <div class="nav-icons d-flex align-items-center ms-auto">
+                <i class="fa-solid fa-box" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Orders"></i>
+                <div class="cart-icon-wrapper" onclick="showAddToCartModal()" style="cursor: pointer;">
+                    <i class="fa-solid fa-cart-shopping" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cart"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </div>
+                <a href="settings.html"><i class="fa-solid fa-gear" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Settings"></i></a>
+                <a href="navbar.html#about-us"><i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="About Us"></i></a>
+                <a href="navbar.html#contact-us"><i class="fa-solid fa-envelope" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Contact Us"></i></a>
+
+                <button onclick="logout()" class="btn btn-logout ms-3 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Back to Home Button Section -->
+<div class="container-fluid mt-3 px-5">
+    <div class="d-flex justify-content-end gap-2">
+        <a href="navbar.html" class="btn btn-outline-primary" style="border-radius: 10px; font-weight: 600;">
+            <i class="fa-solid fa-arrow-left me-2"></i>Back to Home
+        </a>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Desktop Sidebar -->
+        <div class="col-md-3 col-lg-2 sidebar d-none d-md-block">
+            <h5 class="text-center mb-4" data-i18n="settings-title">K-Mart Account Settings</h5>
+            <div class="menu">
+                <div class="menu-item active" onclick="showSection('profile', this)">👤 <span data-i18n="menu-profile">Edit Profile</span></div>
+                <div class="menu-item" onclick="showSection('notifications', this)">🔔 <span data-i18n="menu-notifications">Notifications</span></div>
+                <div class="menu-item" onclick="showSection('password', this)">🔐 <span data-i18n="menu-password">Password Manager</span></div>
+
+                <div class="menu-item" onclick="showSection('address', this)">📍 <span data-i18n="menu-address">Saved Address</span></div>
+                <div class="menu-item" onclick="showSection('cards', this)">💳 <span data-i18n="menu-cards">Saved Cards</span></div>
+                <div class="menu-item" onclick="showSection('privacy', this)">🔒 <span data-i18n="menu-privacy">Additional Settings</span></div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-10 p-4">
+
+            <!-- Mobile Menu Button -->
+            <button class="btn btn-dark d-md-none mb-3 w-100" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+                ☰ <span data-i18n="btn-menu">Settings Menu</span>
+            </button>
+
+            <!-- Profile Section (Default) -->
+            <div id="profile" class="content-section card shadow-sm p-4">
+                <h3 data-i18n="section-profile">Edit Profile</h3>
+                <div class="text-center mb-4">
+                    <div class="profile-photo-container">
+                        <img id="profilePic" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="rounded-circle" width="130" height="130" alt="Profile">
+                        <div class="camera-overlay" onclick="document.getElementById('uploadPic').click()">📸</div>
+                    </div>
+                    <input type="file" id="uploadPic" accept="image/*" class="d-none" onchange="previewImage(event)">
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label" data-i18n="label-name">Full Name</label>
+                        <input id="name" class="form-control" placeholder="Full Name" value="Srihitha" disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" data-i18n="label-email">Email</label>
+                        <input id="email" class="form-control" placeholder="Email" value="srihitha@example.com" disabled>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <label class="form-label" data-i18n="label-phone">Phone</label>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text">+91</span>
+                        <input id="phone1" class="form-control" placeholder="Primary Phone" value="9876543210" disabled>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">+91</span>
+                        <input id="phone2" class="form-control" placeholder="Alternate Phone" disabled>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" id="editBtn" onclick="editProfile()" data-i18n="btn-edit">Edit Profile</button>
+                    <button class="btn btn-primary d-none" id="saveBtn" onclick="saveProfile()" data-i18n="btn-save">Save Changes</button>
+                    <button class="btn btn-secondary d-none" id="cancelBtn" onclick="cancelEdit()" data-i18n="btn-cancel">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div id="notifications" class="content-section card shadow-sm p-4 d-none">
+                <h3 data-i18n="section-notifications">Notifications</h3>
+                <div class="card p-3 mb-3 border-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span data-i18n="notif-email">Email Notifications</span>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" checked id="emailNotif">
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-3 border-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span data-i18n="notif-push">Push Notifications</span>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="pushNotif">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Manager -->
+            <div id="password" class="content-section card shadow-sm p-4 d-none">
+                <h3 data-i18n="section-password">Password Manager</h3>
+                <div class="mb-3">
+                    <label class="form-label" data-i18n="label-current-pass">Current Password</label>
+                    <input type="password" id="currentPass" class="form-control" placeholder="Enter current password">
+                </div>
+                <a href="#" onclick="showForgotModal()" class="text-primary" data-i18n="link-forgot">Forgot Password?</a><br><br>
+                <button class="btn btn-primary" onclick="verifyCurrentPassword()" data-i18n="btn-verify">Verify & Change Password</button>
+            </div>
+
+
+
+            <!-- Saved Address -->
+            <div id="address" class="content-section card shadow-sm p-4 d-none">
+                <h3 data-i18n="section-address">Saved Address</h3>
+                <div id="addressContainer"></div>
+                <button class="btn text-white mt-3" style="background: linear-gradient(90deg, #0ea5e9, #38bdf8); border: none; font-weight: 600;" data-bs-toggle="modal" data-bs-target="#addAddressModal" data-i18n="btn-add-address">+ Add New Address</button>
+            </div>
+
+            <!-- Saved Cards -->
+            <div id="cards" class="content-section card shadow-sm p-4 d-none">
+                <h3 data-i18n="section-cards">Saved Cards</h3>
+                <div id="cardContainer"></div>
+                <button class="btn btn-primary btn-sm mt-3" onclick="addCard()" data-i18n="btn-add-card">+ Add New Card</button>
+            </div>
+
+            <!-- Additional Settings -->
+            <div id="privacy" class="content-section card shadow-sm p-4 d-none">
+                <h3 data-i18n="section-privacy">Additional Settings</h3>
+                <div class="d-flex flex-column gap-3">
+                    <button class="btn text-white btn-lg" style="background: linear-gradient(90deg, #0ea5e9, #38bdf8); border: none; font-weight: 600;" data-bs-toggle="modal" data-bs-target="#policyModal">
+                        <i class="fa-solid fa-shield me-2"></i><span data-i18n="btn-privacy">Privacy Policy</span>
+                    </button>
+                    <button class="btn text-white btn-lg" style="background: linear-gradient(90deg, #ef4444, #f87171); border: none; font-weight: 600;" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="fa-solid fa-trash me-2"></i><span data-i18n="btn-delete">Delete Account</span>
+                    </button>
+                    <button class="btn text-white btn-lg" style="background: linear-gradient(90deg, #f59e0b, #fbbf24); border: none; font-weight: 600;" data-bs-toggle="modal" data-bs-target="#deactivateModal">
+                        <i class="fa-solid fa-pause me-2"></i><span data-i18n="btn-deactivate">Deactivate Account</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Mobile Sidebar -->
+<div class="offcanvas offcanvas-start" id="mobileSidebar">
+    <div class="offcanvas-header">
+        <h5 data-i18n="settings-title">K-Mart Account Settings</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="menu">
+            <div class="menu-item active" onclick="showSection('profile', this);document.getElementById('mobileSidebar').classList.remove('show')">👤 <span data-i18n="menu-profile">Edit Profile</span></div>
+            <div class="menu-item" onclick="showSection('notifications', this);document.getElementById('mobileSidebar').classList.remove('show')">🔔 <span data-i18n="menu-notifications">Notifications</span></div>
+            <div class="menu-item" onclick="showSection('password', this);document.getElementById('mobileSidebar').classList.remove('show')">🔐 <span data-i18n="menu-password">Password Manager</span></div>
+
+            <div class="menu-item" onclick="showSection('address', this);document.getElementById('mobileSidebar').classList.remove('show')">📍 <span data-i18n="menu-address">Saved Address</span></div>
+            <div class="menu-item" onclick="showSection('cards', this);document.getElementById('mobileSidebar').classList.remove('show')">💳 <span data-i18n="menu-cards">Saved Cards</span></div>
+            <div class="menu-item" onclick="showSection('privacy', this);document.getElementById('mobileSidebar').classList.remove('show')">🔒 <span data-i18n="menu-privacy">Additional Settings</span></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- English Only Translations -->
+<script>
+const translations = {
+    en: {
+        "settings-title": "K-Mart Account Settings",
+        "menu-profile": "Edit Profile",
+        "menu-notifications": "Notifications",
+        "menu-password": "Password Manager",
+        "menu-address": "Saved Address",
+        "menu-cards": "Saved Cards",
+        "menu-privacy": "Additional Settings",
+        "menu-home": "Back to Home",
+        "btn-menu": "Settings Menu",
+        "btn-edit": "Edit Profile",
+        "btn-save": "Save Changes",
+        "btn-cancel": "Cancel",
+        "btn-back-home": "Back to Home",
+        "btn-logout": "Logout",
+        "btn-verify": "Verify & Change Password",
+        "btn-privacy": "Privacy Policy",
+        "btn-delete": "Delete Account",
+        "btn-deactivate": "Deactivate Account",
+        "btn-add-address": "+ Add New Address",
+        "btn-add-card": "+ Add New Card",
+        "btn-modal-cancel": "Cancel",
+        "btn-modal-delete": "Delete",
+        "btn-modal-deactivate": "Deactivate",
+        "btn-modal-close": "Close",
+        "section-profile": "Edit Profile",
+        "section-notifications": "Notifications",
+        "section-password": "Password Manager",
+        "section-address": "Saved Address",
+        "section-cards": "Saved Cards",
+        "section-privacy": "Additional Settings",
+        "label-name": "Full Name",
+        "label-email": "Email",
+        "label-phone": "Phone",
+        "label-current-pass": "Current Password",
+        "notif-email": "Email Notifications",
+        "notif-push": "Push Notifications",
+        "link-forgot": "Forgot Password?",
+        "placeholder-search": "Search products...",
+        "tooltip-orders": "My Orders",
+        "tooltip-settings": "Settings",
+        "tooltip-about": "About Us",
+        "tooltip-contact": "Contact Us",
+        "modal-delete-title": "Delete Account?",
+        "modal-delete-msg": "This action cannot be undone.",
+        "modal-deactivate-title": "Deactivate Account?",
+        "modal-deactivate-msg": "Your account will be temporarily deactivated.",
+        "modal-policy-title": "Privacy Policy",
+        "modal-policy-content": "Kmart respects your privacy and protects your data..."
+    }
+};
+
+// Get current language from localStorage or default to 'en'
+let currentLanguage = 'en';
+
+// Function to translate page
+function translatePage(lang) {
+    const elements = document.querySelectorAll('[data-i18n]');
+    elements.forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            element.textContent = translations[lang][key];
+        }
+    });
+
+    // Update placeholders and titles separately
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput && translations[lang]['placeholder-search']) {
+        searchInput.placeholder = translations[lang]['placeholder-search'];
+    }
+
+    // Update tooltips
+    const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltips.forEach(tooltip => {
+        const i18nKey = tooltip.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][i18nKey]) {
+            tooltip.setAttribute('title', translations[lang][i18nKey]);
+        }
+    });
+
+    currentLanguage = lang;
+    localStorage.setItem('kmart_language', lang);
+
+    // Update HTML lang attribute
+    document.documentElement.lang = lang;
+}
+
+function showSection(id, el) {
+    document.querySelectorAll('.content-section').forEach(s => s.classList.add('d-none'));
+    document.getElementById(id).classList.remove('d-none');
+
+    document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+    if (el) el.classList.add('active');
+}
+
+// Profile editing functions
+function editProfile() {
+    document.querySelectorAll('#profile input').forEach(i => i.disabled = false);
+    document.getElementById('editBtn').classList.add('d-none');
+    document.getElementById('saveBtn').classList.remove('d-none');
+    document.getElementById('cancelBtn').classList.remove('d-none');
+}
+
+function saveProfile() {
+    alert("✅ " + translations[currentLanguage]['section-profile'] + " saved successfully!");
+    document.querySelectorAll('#profile input').forEach(i => i.disabled = true);
+    document.getElementById('editBtn').classList.remove('d-none');
+    document.getElementById('saveBtn').classList.add('d-none');
+    document.getElementById('cancelBtn').classList.add('d-none');
+}
+
+function cancelEdit() {
+    document.querySelectorAll('#profile input').forEach(i => i.disabled = true);
+    document.getElementById('editBtn').classList.remove('d-none');
+    document.getElementById('saveBtn').classList.add('d-none');
+    document.getElementById('cancelBtn').classList.add('d-none');
+}
+
+function previewImage(e) {
+    const reader = new FileReader();
+    reader.onload = function() {
+        document.getElementById('profilePic').src = reader.result;
+    }
+    reader.readAsDataURL(e.target.files[0]);
+}
+
+function goHome() {
+    window.location.href = "navbar.html";
+}
+
+function logout() {
+    if(confirm("Are you sure you want to logout?")) {
+        window.location.href = "login.html";
+    }
+}
+
+function searchProduct() {
+    let input = document.getElementById("searchInput").value.toLowerCase().trim();
+    
+    // Category mapping
+    const categories = {
+        "electronics": "electronics.html",
+        "electronic": "electronics.html",
+        "gadgets": "electronics.html",
+        "phone": "electronics.html",
+        "laptop": "electronics.html",
+        "earbuds": "electronics.html",
+        
+        "women": "womens.html",
+        "woman": "womens.html",
+        "womens": "womens.html",
+        "dress": "womens.html",
+        "saree": "womens.html",
+        "fashion": "womens.html",
+        
+        "men": "mens.html",
+        "man": "mens.html",
+        "mens": "mens.html",
+        "shirt": "mens.html",
+        "pants": "mens.html",
+        
+        "kids": "kids.html",
+        "kid": "kids.html",
+        "children": "kids.html",
+        "toys": "toys.html",
+        "toy": "toys.html",
+        "game": "toys.html",
+        
+        "groceries": "groceries.html",
+        "grocery": "groceries.html",
+        "food": "groceries.html",
+        "grains": "groceries.html",
+        
+        "vegetables": "vegetables.html",
+        "vegetable": "vegetables.html",
+        "fruits": "vegetables.html",
+        "fruit": "vegetables.html",
+        "organic": "vegetables.html",
+        
+        "drinks": "drinks.html",
+        "drink": "drinks.html",
+        "beverages": "drinks.html",
+        "coffee": "drinks.html",
+        "juice": "drinks.html",
+        "water": "drinks.html"
+    };
+
+    if (input === "") {
+        return; // Do nothing if search is empty
+    }
+
+    // Check for exact match or partial match
+    let foundPage = null;
+    
+    // Try exact match first
+    if (categories[input]) {
+        foundPage = categories[input];
+    } else {
+        // Try partial match - search for input in all keys
+        for (let key in categories) {
+            if (key.includes(input) || input.includes(key)) {
+                foundPage = categories[key];
+                break;
+            }
+        }
+    }
+
+    if (foundPage) {
+        window.location.href = foundPage;
+    } else {
+        alert("Sorry, '" + input + "' is not found ❌\n\nAvailable categories:\n- Electronics\n- Women\n- Men\n- Kids\n- Toys\n- Groceries\n- Vegetables\n- Drinks");
+    }
+}
+
+// Other placeholder functions
+function addAddress() { 
+    // Form submission will be handled by saveNewAddress function
+}
+
+// Save new address function
+function saveNewAddress() {
+    const fullName = document.getElementById('addressFullName').value.trim();
+    const phone = document.getElementById('addressPhone').value.trim();
+    const mainAddress = document.getElementById('addressMain').value.trim();
+    const state = document.getElementById('addressState').value;
+    const district = document.getElementById('addressDistrict').value.trim();
+    const village = document.getElementById('addressVillage').value.trim();
+    const pincode = document.getElementById('addressPincode').value.trim();
+    
+    // Validation
+    if (!fullName) {
+        alert('Please enter your full name');
+        return;
+    }
+    if (phone.length !== 10 || isNaN(phone)) {
+        alert('Please enter a valid 10-digit phone number');
+        return;
+    }
+    if (!mainAddress) {
+        alert('Please enter your address');
+        return;
+    }
+    if (!state) {
+        alert('Please select a state');
+        return;
+    }
+    if (!pincode || pincode.length !== 6) {
+        alert('Please enter a valid 6-digit pincode');
+        return;
+    }
+    
+    // Show success message
+    alert('✅ Address saved successfully!\n\n' + 
+          fullName + '\n' + 
+          mainAddress + '\n' + 
+          village + ', ' + district + '\n' + 
+          state + ' - ' + pincode + '\n\n' +
+          'Phone: ' + phone);
+    
+    // Clear form
+    document.getElementById('addressForm').reset();
+    
+    // Close modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('addAddressModal'));
+    modal.hide();
+}
+function addCard() { alert(translations[currentLanguage]['btn-add-card']); }
+function verifyCurrentPassword() { alert(translations[currentLanguage]['btn-verify']); }
+function showForgotModal() { alert(translations[currentLanguage]['link-forgot']); }
+function confirmDeleteAccount() { alert(translations[currentLanguage]['btn-modal-delete']); }
+function confirmDeactivateAccount() { alert(translations[currentLanguage]['btn-modal-deactivate']); }
+
+// Delete Account Handler
+function submitDeleteAccount() {
+    const reason = document.getElementById('deleteReason').value.trim();
+    const password = document.getElementById('deletePassword').value.trim();
+    
+    if (!reason) {
+        alert('Please tell us why you want to delete your account');
+        return;
+    }
+    if (!password) {
+        alert('Please enter your password to confirm');
+        return;
+    }
+    
+    // Show success message
+    alert('✅ Account successfully deleted! All your data has been removed.\nWe\'re sad to see you go 😢');
+    
+    // Close modal and redirect
+    const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+    modal.hide();
+    
+    // Clear form
+    document.getElementById('deleteReason').value = '';
+    document.getElementById('deletePassword').value = '';
+    
+    // Redirect to login after a short delay
+    setTimeout(() => {
+        window.location.href = 'login.html';
+    }, 1000);
+}
+
+// Deactivate Account Handler
+function submitDeactivateAccount() {
+    const reason = document.getElementById('deactivateReason').value.trim();
+    const password = document.getElementById('deactivatePassword').value.trim();
+    
+    if (!reason) {
+        alert('Please tell us why you want to deactivate your account');
+        return;
+    }
+    if (!password) {
+        alert('Please enter your password to confirm');
+        return;
+    }
+    
+    // Show success message
+    alert('✅ Account deactivated successfully!\nYou can reactivate your account anytime by logging in.\nSee you soon! 👋');
+    
+    // Close modal and redirect
+    const modal = bootstrap.Modal.getInstance(document.getElementById('deactivateModal'));
+    modal.hide();
+    
+    // Clear form
+    document.getElementById('deactivateReason').value = '';
+    document.getElementById('deactivatePassword').value = '';
+    
+    // Redirect to navbar after a short delay
+    setTimeout(() => {
+        window.location.href = 'navbar.html';
+    }, 1000);
+}
+
+// Initialize on page load
+document.addEventListener("DOMContentLoaded", function() {
+    translatePage(currentLanguage);
+    updateCartBadge();
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+    console.log("Kmart Settings Page Loaded Successfully");
+});
+
+function updateCartBadge() {
+    const cart = JSON.parse(localStorage.getItem('kmart_cart') || '[]');
+    const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    const badge = document.getElementById('cartBadge');
+    if (badge) badge.innerText = count;
+}
+</script>
+
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header" style="background: linear-gradient(90deg, #0ea5e9, #38bdf8); border: none;">
+                <h5 class="modal-title text-white" id="deleteModalLabel">⚠️ Delete Account</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa-solid fa-exclamation-circle me-2"></i>
+                    <strong>Warning!</strong> This action cannot be undone. All your data will be permanently deleted.
+                </div>
+                
+                <form>
+                    <div class="mb-3">
+                        <label for="deleteReason" class="form-label fw-600">Why are you deleting your account?</label>
+                        <textarea class="form-control" id="deleteReason" rows="3" placeholder="Please help us improve by sharing your reason..." style="border: 2px solid #e0e7ff;"></textarea>
+                        <small class="text-muted">This helps us improve our service</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="deletePassword" class="form-label fw-600">Enter your password to confirm</label>
+                        <input type="password" class="form-control" id="deletePassword" placeholder="Enter your password" style="border: 2px solid #e0e7ff;">
+                        <small class="text-muted">For security, we need to verify your password</small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-top-0 p-4">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white" style="background: linear-gradient(90deg, #ef4444, #f87171);" onclick="submitDeleteAccount()">
+                    <i class="fa-solid fa-trash me-2"></i>Yes, Delete My Account
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Deactivate Account Modal -->
+<div class="modal fade" id="deactivateModal" tabindex="-1" aria-labelledby="deactivateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header" style="background: linear-gradient(90deg, #0ea5e9, #38bdf8); border: none;">
+                <h5 class="modal-title text-white" id="deactivateModalLabel">⏸️ Deactivate Account</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="alert alert-warning" role="alert">
+                    <i class="fa-solid fa-info-circle me-2"></i>
+                    <strong>Temporary Deactivation</strong> You can reactivate your account anytime by logging back in.
+                </div>
+                
+                <form>
+                    <div class="mb-3">
+                        <label for="deactivateReason" class="form-label fw-600">Why are you deactivating your account?</label>
+                        <textarea class="form-control" id="deactivateReason" rows="3" placeholder="Your feedback matters to us..." style="border: 2px solid #e0e7ff;"></textarea>
+                        <small class="text-muted">This helps us understand what we can improve</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="deactivatePassword" class="form-label fw-600">Enter your password to confirm</label>
+                        <input type="password" class="form-control" id="deactivatePassword" placeholder="Enter your password" style="border: 2px solid #e0e7ff;">
+                        <small class="text-muted">For security, we need to verify your password</small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-top-0 p-4">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white" style="background: linear-gradient(90deg, #f59e0b, #fbbf24);" onclick="submitDeactivateAccount()">
+                    <i class="fa-solid fa-pause me-2"></i>Yes, Deactivate My Account
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Privacy Policy Modal -->
+<div class="modal fade" id="policyModal" tabindex="-1" aria-labelledby="policyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header" style="background: linear-gradient(90deg, #0ea5e9, #38bdf8); border: none;">
+                <h5 class="modal-title text-white" id="policyModalLabel">📋 Privacy Policy</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <h6 class="fw-bold mb-3">1. Information We Collect</h6>
+                <p class="text-muted small">We collect information you provide directly to us, such as when you create an account, place an order, or contact our customer support.</p>
+                
+                <h6 class="fw-bold mb-3 mt-4">2. How We Use Your Information</h6>
+                <p class="text-muted small">We use the information we collect to provide, maintain, and improve our services, process your transactions, and communicate with you.</p>
+                
+                <h6 class="fw-bold mb-3 mt-4">3. Data Security</h6>
+                <p class="text-muted small">We implement appropriate technical and organizational measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction.</p>
+                
+                <h6 class="fw-bold mb-3 mt-4">4. Your Rights</h6>
+                <p class="text-muted small">You have the right to access, update, or delete your personal information. You can do this by contacting us directly or through your account settings.</p>
+            </div>
+            <div class="modal-footer border-top-0 p-4">
+                <button type="button" class="btn text-white" style="background: linear-gradient(90deg, #0ea5e9, #38bdf8);" data-bs-dismiss="modal">I Understand</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Address Modal -->
+<div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header" style="background: linear-gradient(90deg, #0ea5e9, #38bdf8); border: none;">
+                <h5 class="modal-title text-white" id="addAddressModalLabel">📍 Add New Delivery Address</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="addressForm">
+                    <div class="mb-3">
+                        <label for="addressFullName" class="form-label fw-600">Full Name *</label>
+                        <input type="text" class="form-control" id="addressFullName" placeholder="Enter your full name" style="border: 2px solid #e0e7ff;">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="addressPhone" class="form-label fw-600">Phone Number *</label>
+                        <input type="tel" class="form-control" id="addressPhone" placeholder="10-digit phone number" maxlength="10" style="border: 2px solid #e0e7ff;">
+                        <small class="text-muted">Please enter a valid 10-digit phone number</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="addressMain" class="form-label fw-600">Street Address *</label>
+                        <input type="text" class="form-control" id="addressMain" placeholder="Flat, House No, Street, Building Name" style="border: 2px solid #e0e7ff;">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="addressState" class="form-label fw-600">State *</label>
+                            <select class="form-select" id="addressState" style="border: 2px solid #e0e7ff;">
+                                <option value="">Select State</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Maharastra">Maharashtra</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="West Bengal">West Bengal</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="addressDistrict" class="form-label fw-600">District</label>
+                            <input type="text" class="form-control" id="addressDistrict" placeholder="District" style="border: 2px solid #e0e7ff;">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="addressVillage" class="form-label fw-600">Village / Area</label>
+                            <input type="text" class="form-control" id="addressVillage" placeholder="Village / Area" style="border: 2px solid #e0e7ff;">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="addressPincode" class="form-label fw-600">Pincode *</label>
+                            <input type="text" class="form-control" id="addressPincode" placeholder="6-digit pincode" maxlength="6" style="border: 2px solid #e0e7ff;">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-top-0 p-4">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white" style="background: linear-gradient(90deg, #0ea5e9, #38bdf8); border: none; font-weight: 600;" onclick="saveNewAddress()">
+                    <i class="fa-solid fa-check me-2"></i>Save Address
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

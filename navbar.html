@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<title>Kmart</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    html { scroll-behavior: smooth; }
+
+    .navbar {
+        background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 12px 0;
+    }
+    .navbar-brand {
+        font-size: 2.4rem;
+        font-weight: 900;
+        letter-spacing: -2px;
+    }
+    .logo-k { color: #e60000; }
+    .logo-mart { color: #ffffff; }
+
+    .search-container {
+        position: relative;
+        width: 460px;
+        max-width: 100%;
+    }
+    .search-container input {
+        width: 100%;
+        padding: 14px 50px 14px 20px;
+        border-radius: 50px;
+        border: none;
+        background: #ffffff;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        font-size: 1.05rem;
+        transition: all 0.3s;
+    }
+    .search-container input:focus {
+        box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);
+        transform: scale(1.02);
+    }
+    .search-icon {
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.4rem;
+        color: #0ea5e9;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .search-icon:hover { color: #e60000; }
+
+    .nav-icons i {
+        font-size: 26px;
+        margin-left: 22px;
+        color: #ffffff;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    .nav-icons i:hover {
+        color: #e60000;
+        transform: scale(1.15);
+    }
+
+    .cart-icon-wrapper {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+    }
+    .cart-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #ef4444;
+        color: white;
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .btn-logout {
+        background: #ffffff;
+        color: #0ea5e9;
+        border-radius: 50px;
+        padding: 8px 24px;
+        font-weight: 600;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s;
+    }
+    .btn-logout:hover {
+        background: #e60000;
+        color: #ffffff;
+        transform: translateY(-2px);
+    }
+
+    .hero-carousel {
+        height: 520px;
+    }
+    .hero-carousel .carousel-item img {
+        height: 520px;
+        object-fit: cover;
+        filter: brightness(0.92);
+    }
+    .hero-caption {
+        background: rgba(0, 0, 0, 0.35);
+        padding: 20px 40px;
+        border-radius: 15px;
+        text-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+    }
+
+    body { padding-top: 88px; }
+
+    /* Categories Strip */
+    .categories-strip {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        overflow-x: auto;
+        padding: 20px 10px;
+        gap: 30px;
+    }
+    .categories-strip::-webkit-scrollbar { display: none; }
+
+    .category-box {
+        text-align: center;
+        min-width: 130px;
+        flex: 1;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: inherit;
+    }
+    .category-box:hover {
+        transform: scale(1.1);
+    }
+    .category-box img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        background-color: #e6d6e9;
+        padding: 10px;
+        display: block;
+        margin: auto;
+        transition: 0.3s;
+    }
+    .category-box:hover img {
+        transform: scale(1.12);
+        box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
+    }
+    .category-box p {
+        margin-top: 12px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    /* Featured Products Slider */
+    .featured-section {
+        background: #f8f9fa;
+        padding: 50px 0;
+    }
+    .section-title {
+        color: #0ea5e9;
+        font-weight: 700;
+        margin-bottom: 30px;
+    }
+    .featured-slider {
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        gap: 25px;
+        padding: 10px 0;
+    }
+    .featured-slider::-webkit-scrollbar { display: none; }
+
+    .product-card {
+        min-width: 280px;
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+    }
+    .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    .product-card img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        transition: 0.4s ease;
+    }
+    .product-card:hover img {
+        transform: scale(1.08);
+    }
+    .product-info {
+        padding: 15px 20px;
+        text-align: center;
+    }
+    .product-info h5 {
+        font-size: 1.3rem;
+        margin-bottom: 8px;
+    }
+    .price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #e60000;
+    }
+    .old-price {
+        text-decoration: line-through;
+        color: #999;
+        font-size: 1.1rem;
+    }
+    .btn-buy {
+        background: linear-gradient(90deg, #8b00ff, #d63384);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        margin: 8px 5px;
+        transition: 0.3s;
+    }
+    .btn-buy:hover {
+        background: linear-gradient(90deg, #d63384, #8b00ff);
+        transform: scale(1.05);
+        color: white;
+    }
+
+    /* Brand Logos Marquee */
+    .brands-section {
+        background: white;
+        padding: 40px 0;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+    }
+    .brands-container {
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .brands-track {
+        display: inline-flex;
+        align-items: center;
+        animation: marquee 35s linear infinite;
+        gap: 80px;
+    }
+    .brands-track:hover {
+        animation-play-state: paused;
+    }
+    .brand-logo {
+        height: 85px;
+        width: auto;
+        filter: grayscale(80%);
+        transition: 0.4s;
+    }
+    .brand-logo:hover {
+        filter: grayscale(0%);
+        transform: scale(1.1);
+    }
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+    .contact-section {
+        background: linear-gradient(135deg, #f8f9fa, #e3f2fd);
+    }
+    .contact-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    .btn-contact {
+        background-color: #0d6efd;
+        color: white;
+        border-radius: 10px;
+        padding: 12px 30px;
+        font-weight: 600;
+    }
+    .btn-contact:hover {
+        background-color: #0b5ed7;
+        transform: translateY(-2px);
+    }
+    .info-icon {
+        font-size: 28px;
+        color: skyblue;
+    }
+
+    .kmart-footer {
+        background-color: #f8f9fa;
+        border-top: 3px solid #0ea5e9;
+        padding: 40px 0 20px;
+        font-size: 14px;
+    }
+    .footer-heading {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 15px;
+    }
+    .footer-link {
+        color: #555;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 8px;
+    }
+    .footer-link:hover {
+        color: #0ea5e9;
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <span class="logo-k">K</span><span class="logo-mart">mart</span>
+        </a>
+
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+            <div class="search-container mx-auto">
+                <input type="text" id="searchInput" placeholder="Search products..." onkeyup="if(event.key === 'Enter') searchProduct()">
+                <div class="search-icon" onclick="searchProduct()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+
+            <div class="nav-icons d-flex align-items-center ms-auto">
+                <a href="my-orders.html"><i class="fa-solid fa-box" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Orders"></i></a>
+                <a href="add to cart.html" class="cart-icon-wrapper"><i class="fa-solid fa-cart-shopping"></i><span class="cart-badge" id="cartBadge">0</span></a>
+                <a href="settings.html"><i class="fa-solid fa-gear" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Settings"></i></a>
+                <a href="#about-us"><i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="About Us"></i></a>
+                <a href="#contact-us"><i class="fa-solid fa-envelope" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Contact Us"></i></a>
+
+                <button onclick="logout()" class="btn btn-logout ms-3 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Welcome -->
+<div class="container mt-3">
+    <h3>Welcome to Kmart <i class="fa-solid fa-cart-shopping text-info"></i></h3>
+    <p class="lead">Proactive Sales &amp; Marketing</p>
+</div>
+
+<!-- Hero Carousel - Fixed with 5 seconds auto scroll -->
+<div id="heroCarousel" class="carousel slide hero-carousel mt-2" 
+     data-bs-ride="carousel" 
+     data-bs-interval="5000" 
+     data-bs-pause="hover">
+    
+    <div class="carousel-inner">
+        
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+            <img src="https://c8.alamy.com/comp/2RPMP3D/mega-sale-special-offer-50-off-sale-banner-sign-board-promotion-vector-2RPMP3D.jpg" 
+                 class="d-block w-100" alt="Summer Sale - Refrigerators, ACs & More">
+            <div class="carousel-caption hero-caption d-none d-md-block">
+                <h1 class="display-3 fw-bold text-white">SUMMER SALE</h1>
+                <p class="lead fs-3">Up to 70% OFF on Refrigerators, ACs & More!</p>
+                <a href="#" class="btn btn-danger btn-lg mt-2">Shop Now →</a>
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+            <img src="https://img.freepik.com/free-vector/mega-sale-discount-business-background_23-2148400045.jpg" 
+                 class="d-block w-100" alt="Summer Fashion Sale">
+            <div class="carousel-caption hero-caption d-none d-md-block">
+                <h2 class="display-4 fw-bold text-white">HOT FASHION DEALS</h2>
+                <p class="lead fs-4">Trendy Clothes, Dresses & More at Lowest Prices</p>
+                <a href="womens.html" class="btn btn-danger btn-lg mt-2">Shop Fashion →</a>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+            <img src="https://img.freepik.com/free-vector/asbtract-colorful-sales-background-concept_23-2148388499.jpg" 
+                 class="d-block w-100" alt="Electronics Summer Sale">
+            <div class="carousel-caption hero-caption d-none d-md-block">
+                <h2 class="display-4 fw-bold text-white">ELECTRONICS BLOWOUT</h2>
+                <p class="lead fs-4">Earbuds, Gadgets & More – Up to 70% OFF</p>
+                <a href="electronics.html" class="btn btn-danger btn-lg mt-2">Shop Electronics →</a>
+            </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="carousel-item">
+            <img src="https://media.istockphoto.com/id/1420166005/vector/10-10-shopping-day-mega-sale-banner-template-design-special-offer-discount-shopping-banner.jpg?s=1024x1024&w=is&k=20&c=TgUvLaJTx7iTc0DQ_QwiBIidx0oeQzLP7KGPsl8g10Q=" 
+                 class="d-block w-100" alt="Summer Mega Sale">
+            <div class="carousel-caption hero-caption d-none d-md-block">
+                <h2 class="display-4 fw-bold text-white">MEGA SUMMER SAVINGS</h2>
+                <p class="lead fs-4">Groceries, Vegetables, Kids Wear & Daily Needs</p>
+                <a href="#" class="btn btn-danger btn-lg mt-2">Explore All Deals →</a>
+            </div>
+        </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- Categories Strip -->
+<div class="container-fluid mt-4 px-5">
+    <h4 style="color: #0ea5e9;">Shop by Category</h4>
+    <div class="categories-strip">
+        <a href="electronics.html" class="category-box text-decoration-none">
+            <img src="https://e7.pngegg.com/pngimages/697/440/png-clipart-home-appliance-consumer-electronics-lg-electronics-laptop-laptop-kitchen-electronics-thumbnail.png">
+            <p>Electronics</p>
+        </a>
+        <a href="womens.html" class="category-box text-decoration-none">
+            <img src="https://e7.pngegg.com/pngimages/88/467/png-clipart-woman-wearing-pink-anarkali-dress-while-holding-pink-dupatta-scarf-anarkali-salwar-suit-party-dress-georgette-dress-textile-fashion-thumbnail.png">
+            <p>Women</p>
+        </a>
+        <a href="kids.html" class="category-box text-decoration-none">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/047/832/529/small_2x/two-young-boys-wearing-denim-jackets-smile-for-the-camera-free-png.png">
+            <p>Kids</p>
+        </a>
+        <a href="mens.html" class="category-box text-decoration-none">
+            <img src="https://p7.hiclipart.com/preview/391/171/807/male-boy-child-clothing-man-winter-label.jpg">
+            <p>Men</p>
+        </a>
+        <a href="vegetables.html" class="category-box text-decoration-none">
+            <img src="https://png.pngtree.com/png-clipart/20241016/original/pngtree-fruit-and-vegetable-png-image_16343587.png">
+            <p>Vegetables</p>
+        </a>
+        <a href="groceries.html" class="category-box text-decoration-none">
+            <img src="https://png.pngtree.com/png-clipart/20240428/original/pngtree-grocery-basket-and-a-list-of-products-png-image_14956705.png">
+            <p>Groceries</p>
+        </a>
+        <a href="toys.html" class="category-box text-decoration-none">
+            <img src="https://png.pngtree.com/png-clipart/20241120/original/pngtree-472329-png-image_17270895.png">
+            <p>Toys</p>
+        </a>
+        <a href="drinks.html" class="category-box text-decoration-none">
+            <img src="https://toppng.com/uploads/preview/discouraging-facts-of-soda-drinks-to-kids-soft-drinks-1156288551724echcgbap.png">
+            <p>Drinks</p>
+        </a>
+    </div>
+</div>
+
+<!-- Featured Deals Section -->
+<div class="featured-section">
+    <div class="container">
+     
+        
+        <div class="position-relative">
+            <button class="btn-nav prev" id="prevBtn" style="left: -20px; position:absolute; top:50%; transform:translateY(-50%); background:none; border:none; font-size:40px; z-index:10;">❮</button>
+            
+            <div class="featured-slider" id="featuredSlider">
+                <div class="product-card">
+                    <img src="https://www.boat-lifestyle.com/cdn/shop/files/Artboard_2_edc92fd2-e892-4322-bb51-5f76fc047517_1000x.png?v=1768903712" alt="Boat Earbuds">
+                    <div class="product-info">
+                        <h5>BOAT Earbuds</h5>
+                        <p><span class="old-price">₹500</span> <span class="price">₹300</span></p>
+                        <button class="btn-buy">Add to Cart</button>
+                        <a href="electronics.html" class="btn-buy text-decoration-none text-center d-block">More Items</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://5.imimg.com/data5/SELLER/Default/2025/2/487321794/ZX/MP/XP/28280455/indian-designer-ready-made-dress.jpg" alt="Women Dress">
+                    <div class="product-info">
+                        <h5>Designer Dress</h5>
+                        <p><span class="old-price">₹500</span> <span class="price">₹300</span></p>
+                        <button class="btn-buy">Add to Cart</button>
+                        <a href="womens.html" class="btn-buy text-decoration-none text-center d-block">More Items</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://liandli.in/cdn/shop/products/LIFG86_3_407a4c6c-5fcf-4f85-b3ad-415b7a2e8d00_800x.jpg?v=1676714291" alt="Kids Dress">
+                    <div class="product-info">
+                        <h5>Kids Party Dress</h5>
+                        <p><span class="old-price">₹500</span> <span class="price">₹300</span></p>
+                        <button class="btn-buy">Add to Cart</button>
+                        <a href="kids.html" class="btn-buy text-decoration-none text-center d-block">More Items</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://www.damensch.com/_next/image?url=https%3A%2F%2Fimg.damensch.com%2Fproducts%2Fjohnny_polo_wisdom_wine_(5).jpg%3Ffm%3Dwebp%26h%3D500&w=640&q=75" alt="T-Shirt">
+                    <div class="product-info">
+                        <h5>Men’s Premium T-Shirt</h5>
+                        <p><span class="old-price">₹500</span> <span class="price">₹300</span></p>
+                        <button class="btn-buy">Add to Cart</button>
+                        <a href="mens.html" class="btn-buy text-decoration-none text-center d-block">More Items</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://thefruitandvegman.com/cdn/shop/files/Carrots_ddd7c4f5-b891-4764-b136-65ed023cd0aa.jpg?v=1690016714" alt="Carrot">
+                    <div class="product-info">
+                        <h5>Fresh Carrots (1kg)</h5>
+                        <p><span class="old-price">₹500</span> <span class="price">₹300</span></p>
+                        <button class="btn-buy">Add to Cart</button>
+                        <a href="vegetables.html" class="btn-buy text-decoration-none text-center d-block">More Items</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://tiimg.tistatic.com/fp/2/007/858/fresh-hygienically-processed-fortune-sunflower-refined-oil-for-kitchen-346.jpg" alt="Fortune Oil">
+                    <div class="product-info">
+                        <h5>Fortune Oil 1L</h5>
+                        <p><span class="old-price">₹500</span> <span class="price">₹300</span></p>
+                        <button class="btn-buy">Add to Cart</button>
+                        <a href="groceries.html" class="btn-buy text-decoration-none text-center d-block">More Items</a>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn-nav next" id="nextBtn" style="right: -20px; position:absolute; top:50%; transform:translateY(-50%); background:none; border:none; font-size:40px; z-index:10;">❯</button>
+        </div>
+    </div>
+</div>
+
+<!-- Brands Marquee Section -->
+<div class="brands-section">
+    <div class="container">
+        <div class="brands-container">
+               <h2 class="section-title text-center">Featured Deals</h2>
+            <div class="brands-track">
+                <img src="https://png.pngtree.com/png-vector/20221019/ourmid/pngtree-ice-cream-logo-png-image_6353499.png" class="brand-logo" alt="Ice Cream">
+                <img src="https://e7.pngegg.com/pngimages/1000/679/png-clipart-logo-skullcandy-brand-headphones-headphones-electronics-text.png" class="brand-logo" alt="Boat">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDZb5Wz51Uj0vpEhKv26sA773nQOiiOjM8AA&s.png" class="brand-logo" alt="Groceries">
+                <img src="https://cdn.dribbble.com/userupload/5835578/file/original-7114f740d25a8409a84e734acb78e967.png?format=webp&resize=400x300&vertical=center.png" class="brand-logo" alt="Toys">
+                <img src="https://t3.ftcdn.net/jpg/03/32/85/46/360_F_332854653_JRhGWXeyBUeQhrJaQMLtdop5jp9tdbrm.jpg" class="brand-logo" alt="Men">
+                <img src="https://img.pikbest.com/png-images/20240816/business-ladies-garments-logo-design-vector-icon-template_10731251.png!w700wp" class="brand-logo" alt="Women">
+                <img src="https://img.freepik.com/premium-vector/kids-wear-logo-kids-clothing-logo-kids-fashion-logo_566189-599.jpg" class="brand-logo" alt="Kids">
+                
+                <!-- Duplicate for seamless loop -->
+                <img src="https://png.pngtree.com/png-vector/20221019/ourmid/pngtree-ice-cream-logo-png-image_6353499.png" class="brand-logo" alt="Ice Cream">
+                <img src="https://e7.pngegg.com/pngimages/1000/679/png-clipart-logo-skullcandy-brand-headphones-headphones-electronics-text.png" class="brand-logo" alt="Boat">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDZb5Wz51Uj0vpEhKv26sA773nQOiiOjM8AA&s.png" class="brand-logo" alt="Groceries">
+                <img src="https://cdn.dribbble.com/userupload/5835578/file/original-7114f740d25a8409a84e734acb78e967.png?format=webp&resize=400x300&vertical=center.png" class="brand-logo" alt="Toys">
+                <img src="https://t3.ftcdn.net/jpg/03/32/85/46/360_F_332854653_JRhGWXeyBUeQhrJaQMLtdop5jp9tdbrm.jpg" class="brand-logo" alt="Men">
+                <img src="https://img.pikbest.com/png-images/20240816/business-ladies-garments-logo-design-vector-icon-template_10731251.png!w700wp" class="brand-logo" alt="Women">
+                <img src="https://img.freepik.com/premium-vector/kids-wear-logo-kids-clothing-logo-kids-fashion-logo_566189-599.jpg" class="brand-logo" alt="Kids">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- About Us -->
+<div id="about-us" class="container my-5 p-5 bg-light rounded shadow-sm">
+    <div class="row align-items-center mb-5">
+        <div class="col-md-5 mb-4 mb-md-0">
+            <img src="https://media.istockphoto.com/id/1509494759/photo/closeup-of-a-kmart-store-exterior-featuring-a-few-shopping-carts-parked-outside-the-entrance.jpg" 
+                 class="img-fluid rounded shadow" alt="Kmart Store">
+        </div>
+        <div class="col-md-7">
+            <h2 class="text-primary fw-bold mb-3">About Kmart - Ultra-Fast Delivery in 15 Minutes</h2>
+            <p class="lead text-muted">Your trusted online supermarket delivering quality products at unbeatable prices, right to your doorstep in just 15 minutes.</p>
+            
+            <h5 class="mt-4 mb-3 fw-bold">Our Mission</h5>
+            <p>At Kmart, we're revolutionizing grocery and retail shopping by combining <strong>Speed, Quality, and Affordability</strong>. Our mission is to provide seamless shopping experiences with lightning-fast delivery, ensuring fresh products and exceptional customer service every single time.</p>
+
+            <h5 class="mb-3 fw-bold">Why Choose Kmart?</h5>
+            <ul class="list-unstyled">
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><strong>15-Minute Delivery:</strong> Lightning-fast delivery to your home</li>
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><strong>Fresh Products:</strong> Daily inventory with quality guarantee</li>
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><strong>Best Prices:</strong> Competitive pricing with seasonal discounts</li>
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><strong>Wide Selection:</strong> Groceries, Electronics, Fashion & More</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row g-3 mt-4">
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm p-4 h-100 border-0 bg-white">
+                <i class="fa-solid fa-truck-fast fa-3x mb-3 text-primary"></i>
+                <h6 class="fw-bold mb-2">Ultra-Fast Delivery</h6>
+                <p class="small text-muted">Get your groceries delivered within 15 minutes or less</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm p-4 h-100 border-0 bg-white">
+                <i class="fa-solid fa-hand-holding-dollar fa-3x mb-3 text-success"></i>
+                <h6 class="fw-bold mb-2">Best Prices</h6>
+                <p class="small text-muted">Unbeatable prices with exclusive coupon codes and offers</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm p-4 h-100 border-0 bg-white">
+                <i class="fa-solid fa-star fa-3x mb-3 text-warning"></i>
+                <h6 class="fw-bold mb-2">Quality Assured</h6>
+                <p class="small text-muted">100% fresh products with strict quality checks</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm p-4 h-100 border-0 bg-white">
+                <i class="fa-solid fa-headset fa-3x mb-3 text-info"></i>
+                <h6 class="fw-bold mb-2">24/7 Support</h6>
+                <p class="small text-muted">Dedicated customer service ready to assist you anytime</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <h4 class="text-primary fw-bold mb-4">What We Offer</h4>
+        </div>
+        <div class="col-md-2 col-sm-4 mb-3">
+            <div class="text-center p-3 bg-white rounded shadow-sm">
+                <i class="fa-solid fa-leaf fa-2x mb-2 text-success"></i>
+                <p class="small fw-bold">Groceries</p>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-4 mb-3">
+            <div class="text-center p-3 bg-white rounded shadow-sm">
+                <i class="fa-solid fa-carrot fa-2x mb-2 text-danger"></i>
+                <p class="small fw-bold">Vegetables</p>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-4 mb-3">
+            <div class="text-center p-3 bg-white rounded shadow-sm">
+                <i class="fa-solid fa-glass fa-2x mb-2 text-warning"></i>
+                <p class="small fw-bold">Beverages</p>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-4 mb-3">
+            <div class="text-center p-3 bg-white rounded shadow-sm">
+                <i class="fa-solid fa-laptop fa-2x mb-2 text-primary"></i>
+                <p class="small fw-bold">Electronics</p>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-4 mb-3">
+            <div class="text-center p-3 bg-white rounded shadow-sm">
+                <i class="fa-solid fa-shirt fa-2x mb-2 text-info"></i>
+                <p class="small fw-bold">Fashion</p>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-4 mb-3">
+            <div class="text-center p-3 bg-white rounded shadow-sm">
+                <i class="fa-solid fa-gamepad fa-2x mb-2 text-danger"></i>
+                <p class="small fw-bold">Toys & Kids</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trust Indicators -->
+    <div class="row mt-5 text-center">
+        <div class="col-md-4">
+            <h3 class="text-primary fw-bold">10,000+</h3>
+            <p class="text-muted">Products Available</p>
+        </div>
+        <div class="col-md-4">
+            <h3 class="text-primary fw-bold">98%</h3>
+            <p class="text-muted">Customer Satisfaction Rate</p>
+        </div>
+        <div class="col-md-4">
+            <h3 class="text-primary fw-bold">24/7</h3>
+            <p class="text-muted">Availability & Support</p>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Us -->
+<div id="contact-us" class="contact-section py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="text-primary fw-bold">Contact Us</h2>
+            <p class="lead">We'd love to hear from you! Reach out anytime.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="card contact-card p-4">
+                    <form id="contactForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="subject" placeholder="How can we help you?">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-control" id="message" rows="5" placeholder="Write your message here..." required></textarea>
+                        </div>
+                        <button type="button" onclick="submitContactForm()" class="btn btn-contact w-100">
+                            <i class="fa-solid fa-paper-plane me-2"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="card contact-card p-4 h-100">
+                    <h5 class="mb-4"><i class="fa-solid fa-headset me-2"></i> Get In Touch</h5>
+                    
+                    <div class="mb-4">
+                        <p><i class="fa-solid fa-location-dot info-icon me-3"></i>
+                        <strong>Address:</strong><br>
+                        Kmart Superstore, MG Road, Guntur, Andhra Pradesh - 522001
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <p><i class="fa-solid fa-phone info-icon me-3"></i>
+                        <strong>Phone:</strong><br>
+                        +91 98765 43210<br>
+                        +91 866 123 4567
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <p><i class="fa-solid fa-envelope info-icon me-3"></i>
+                        <strong>Email:</strong><br>
+                        support@kmart.in<br>
+                        care@kmart.in
+                        </p>
+                    </div>
+
+                    <div class="mt-auto">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30685.123456789!2d80.436!3d16.306!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a35f5e0b0b0b0b0%3A0x1234567890abcdef!2sGuntur%2C%20Andhra%20Pradesh!5e0!3m2!1sen!2sin!4v1234567890" 
+                                width="100%" height="200" style="border:0; border-radius:10px;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="kmart-footer">
+    <div class="container">
+        <div class="row text-center text-md-start">
+            <div class="col-12 mb-4">
+                <h5 class="text-primary fw-bold">We are here to help you!</h5>
+            </div>
+            <div class="col-md-2 col-6 mb-4">
+                <h6 class="footer-heading">About Us</h6>
+                <a href="#" class="footer-link">Kmart Export</a>
+                <a href="#" class="footer-link">Join Sales</a>
+                <a href="#" class="footer-link">Success Stories</a>
+                <a href="#" class="footer-link">Shipping & Delivery Policy</a>
+                <a href="#" class="footer-link">Returns & Cancellation Policy</a>
+                <a href="#" class="footer-link">Press Section</a>
+            </div>
+            <div class="col-md-2 col-6 mb-4">
+                <h6 class="footer-heading">Help</h6>
+                <a href="#" class="footer-link">Feedback</a>
+                <a href="#" class="footer-link">Complaints</a>
+                <a href="#" class="footer-link">Customer Care</a>
+                <a href="#" class="footer-link">Jobs & Careers</a>
+                <a href="#contact-us" class="footer-link">Contact Us</a>
+            </div>
+            <div class="col-md-2 col-6 mb-4">
+                <h6 class="footer-heading">Suppliers Tool Kit</h6>
+                <a href="#" class="footer-link">Sell on Kmart</a>
+                <a href="#" class="footer-link">Latest BuyLead</a>
+                <a href="#" class="footer-link">Learning Centre</a>
+                <a href="#" class="footer-link">Ship With Kmart</a>
+            </div>
+            <div class="col-md-2 col-6 mb-4">
+                <h6 class="footer-heading">Buyers Tool Kit</h6>
+                <a href="#" class="footer-link">Post Your Requirement</a>
+                <a href="#" class="footer-link">Products You Buy</a>
+                <a href="#" class="footer-link">Search Products & Suppliers</a>
+            </div>
+            <div class="col-md-2 col-6 mb-4">
+                <h6 class="footer-heading">Accounting Solutions</h6>
+                <a href="#" class="footer-link">Accounting Software</a>
+                <a href="#" class="footer-link">Tally on Mobile</a>
+                <a href="#" class="footer-link">GST e-Invoice</a>
+            </div>
+            <div class="col-md-2 col-12 text-md-end text-center mb-4">
+                <p class="mb-2"><strong>Go Mobile:</strong></p>
+                <div class="mb-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/256px-Download_on_the_App_Store_Badge.svg.png" alt="App Store" height="32">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/256px-Google_Play_Store_badge_EN.svg.png" alt="Play Store" height="32">
+                </div>
+                <p class="mb-2"><strong>Follow us on:</strong></p>
+                <div>
+                    <i class="fa-brands fa-facebook fa-2x mx-2"></i>
+                    <i class="fa-brands fa-x-twitter fa-2x mx-2"></i>
+                    <i class="fa-brands fa-linkedin fa-2x mx-2"></i>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center text-muted small">
+            © 2026 Kmart. All Rights Reserved. | Made with ❤️ for Proactive Sales & Marketing
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script>
+    function searchProduct() {
+        let input = document.getElementById("searchInput").value.toLowerCase().trim();
+        
+        if (input === "") {
+            alert("Please enter a search term!");
+            return;
+        }
+        
+        // Category mapping
+        const categories = {
+            "electronics": "electronics.html",
+            "electronic": "electronics.html",
+            "gadgets": "electronics.html",
+            "phone": "electronics.html",
+            "laptop": "electronics.html",
+            "earbuds": "electronics.html",
+            
+            "women": "womens.html",
+            "woman": "womens.html",
+            "womens": "womens.html",
+            "dress": "womens.html",
+            "saree": "womens.html",
+            "fashion": "womens.html",
+            
+            "men": "mens.html",
+            "man": "mens.html",
+            "mens": "mens.html",
+            "shirt": "mens.html",
+            "pants": "mens.html",
+            
+            "kids": "kids.html",
+            "kid": "kids.html",
+            "children": "kids.html",
+            "toys": "toys.html",
+            "toy": "toys.html",
+            "game": "toys.html",
+            
+            "groceries": "groceries.html",
+            "grocery": "groceries.html",
+            "food": "groceries.html",
+            "grains": "groceries.html",
+            
+            "vegetables": "vegetables.html",
+            "vegetable": "vegetables.html",
+            "fruits": "vegetables.html",
+            "fruit": "vegetables.html",
+            "organic": "vegetables.html",
+            
+            "drinks": "drinks.html",
+            "drink": "drinks.html",
+            "beverages": "drinks.html",
+            "coffee": "drinks.html",
+            "juice": "drinks.html",
+            "water": "drinks.html"
+        };
+
+        // Check for exact match or partial match
+        let foundPage = null;
+        
+        // Try exact match first
+        if (categories[input]) {
+            foundPage = categories[input];
+        } else {
+            // Try partial match - search for input in all keys
+            for (let key in categories) {
+                if (key.includes(input) || input.includes(key)) {
+                    foundPage = categories[key];
+                    break;
+                }
+            }
+        }
+
+        if (foundPage) {
+            window.location.href = foundPage;
+        } else {
+            alert("Sorry, '" + input + "' is not found ❌\n\nAvailable categories:\n- Electronics\n- Women\n- Men\n- Kids\n- Toys\n- Groceries\n- Vegetables\n- Drinks");
+        }
+        
+        // Clear search input
+        document.getElementById("searchInput").value = "";
+    }
+
+    function submitContactForm() {
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
+
+        if(name && email && message) {
+            alert(`Thank you, ${name}!\nYour message has been received. We'll get back to you soon. ✅`);
+            document.getElementById("contactForm").reset();
+        } else {
+            alert("Please fill all required fields.");
+        }
+    }
+
+    function logout() {
+        if(confirm("Are you sure you want to logout?")) {
+            window.location.href = "login.html";
+        }
+    }
+
+    // Featured Slider Navigation
+    const slider = document.getElementById("featuredSlider");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    nextBtn.addEventListener("click", () => {
+        slider.scrollBy({ left: 300, behavior: "smooth" });
+    });
+
+    prevBtn.addEventListener("click", () => {
+        slider.scrollBy({ left: -300, behavior: "smooth" });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        updateCartBadge();
+        
+        // Add to Cart functionality for navbar product cards
+        document.querySelectorAll('.featured-slider .product-card').forEach(card => {
+            const addBtn = card.querySelector('.btn-buy');
+            if (addBtn && addBtn.innerText === 'Add to Cart') {
+                addBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    addProductToCart(card, addBtn);
+                });
+            }
+        });
+        
+        // Smooth scrolling with offset for About Us and Contact Us links
+        document.querySelectorAll('a[href="#about-us"], a[href="#contact-us"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 100;
+                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+                }
+            });
+        });
+    });
+
+    function addProductToCart(card, btn) {
+        const title = card.querySelector('h5').innerText.trim();
+        const price = parseInt(card.querySelector('.price').innerText.replace(/[^\d]/g, ''));
+        const img = card.querySelector('img').src;
+        const qty = 1;
+        
+        const cart = JSON.parse(localStorage.getItem('kmart_cart') || '[]');
+        const existing = cart.find(i => i.name === title && i.price === price);
+        if (existing) {
+            existing.quantity += qty;
+        } else {
+            cart.push({ name: title, price: price, quantity: qty, img: img });
+        }
+        localStorage.setItem('kmart_cart', JSON.stringify(cart));
+        updateCartBadge();
+        
+        // Show confirmation
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Added to Cart!';
+        btn.style.background = '#10b981';
+        
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.background = '';
+        }, 1500);
+    }
+
+    function updateCartBadge() {
+        const cart = JSON.parse(localStorage.getItem('kmart_cart') || '[]');
+        const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        const badge = document.getElementById('cartBadge');
+        if (badge) badge.innerText = count;
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

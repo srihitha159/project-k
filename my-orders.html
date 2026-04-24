@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>My Orders - Kmart</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-blue: #0ea5e9;
+            --secondary-blue: #38bdf8;
+            --kmart-red: #e60000;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --bg-light: #f8f9fa;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-light);
+            padding-top: 88px;
+            color: var(--text-dark);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 12px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 2.4rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
+
+        .logo-k {
+            color: var(--kmart-red);
+        }
+
+        .logo-mart {
+            color: white;
+        }
+
+        .search-container {
+            position: relative;
+            width: 460px;
+            max-width: 100%;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 12px 50px 12px 20px;
+            border-radius: 50px;
+            border: none;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .search-container input:focus {
+            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);
+            transform: scale(1.02);
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-icon:hover {
+            color: var(--kmart-red);
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-icons i,
+        .nav-icons a {
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-icons i:hover,
+        .nav-icons a:hover {
+            color: var(--kmart-red);
+            transform: scale(1.15);
+        }
+
+        .nav-icons a {
+            margin: 0 10px;
+        }
+
+        .btn-logout {
+            background: white;
+            color: var(--primary-blue);
+            border-radius: 50px;
+            padding: 8px 24px;
+            font-weight: 600;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            margin-left: 15px;
+        }
+
+        .btn-logout:hover {
+            background: var(--kmart-red);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            z-index: 999;
+            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Main Container */
+        .container-orders {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 15px;
+        }
+
+        /* Header */
+        .orders-header {
+            background: white;
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .orders-header h2 {
+            margin: 0;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-section select {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .filter-section select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .empty-state-icon {
+            font-size: 80px;
+            color: var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        .empty-state-btn {
+            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .empty-state-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        /* Order Card */
+        .order-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .order-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .order-header {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .order-id-date {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .order-id {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 1.05rem;
+            margin-bottom: 5px;
+        }
+
+        .order-id small {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .order-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .status-delivered {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-shipped {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .status-cancelled {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        /* Order Body */
+        .order-body {
+            padding: 20px;
+        }
+
+        .order-items {
+            margin-bottom: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            background: var(--bg-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        .item-meta {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .item-price {
+            font-weight: 700;
+            color: var(--kmart-red);
+            font-size: 1.1rem;
+        }
+
+        .item-qty {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: var(--bg-light);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .summary-row.total {
+            border-top: 2px solid var(--border-color);
+            padding-top: 10px;
+            margin-top: 10px;
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+
+        /* Tracking */
+        .tracking-section {
+            margin-bottom: 20px;
+        }
+
+        .tracking-header {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 6px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--border-color);
+            border: 3px solid white;
+        }
+
+        .timeline-item.completed::before {
+            background: #4caf50;
+            box-shadow: 0 0 0 2px #e8f5e9;
+        }
+
+        .timeline-item.active::before {
+            background: var(--primary-blue);
+            box-shadow: 0 0 0 2px #e3f2fd;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 2px #e3f2fd; }
+            50% { box-shadow: 0 0 0 6px rgba(14, 165, 233, 0.3); }
+            100% { box-shadow: 0 0 0 2px #e3f2fd; }
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 24px;
+            width: 2px;
+            height: calc(100% + 20px);
+            background: var(--border-color);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-item.completed::after {
+            background: #4caf50;
+        }
+
+        .timeline-content {
+            font-size: 0.95rem;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .timeline-date {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-top: 3px;
+        }
+
+        /* Action Buttons */
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 10px 16px;
+            border: 1px solid var(--border-color);
+            background: white;
+            color: var(--text-dark);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .action-btn:hover {
+            background: var(--bg-light);
+            border-color: var(--text-light);
+        }
+
+        .action-btn.danger {
+            color: var(--kmart-red);
+            border-color: var(--kmart-red);
+        }
+
+        .action-btn.danger:hover {
+            background: #ffebee;
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .action-btn.primary:hover {
+            background: linear-gradient(90deg, #0d94d9, #2ba8e8);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+        }
+
+        /* Modals */
+        .modal-header {
+            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            border: none;
+            padding: 20px;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .modal-title {
+            font-weight: 700;
+        }
+
+        .modal-body {
+            padding: 30px 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s;
+        }
+
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+        }
+
+        .form-group .char-count {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-modal {
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-modal-cancel {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-modal-cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-modal-submit {
+            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+        }
+
+        .btn-modal-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-btn {
+                top: 85px;
+                right: 15px;
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
+
+            .orders-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .filter-section {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .filter-section select {
+                width: 100%;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .order-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .item-image {
+                width: 100%;
+                height: 200px;
+            }
+
+            .order-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+
+            .search-container {
+                width: 100%;
+            }
+
+            .nav-icons {
+                gap: 8px;
+            }
+        }
+
+        /* Success/Alert Messages */
+        .alert-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4caf50;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar (same as navbar.html) -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid px-3">
+        <a class="navbar-brand d-flex align-items-center" href="navbar.html">
+            <span class="logo-k">K</span><span class="logo-mart">mart</span>
+        </a>
+
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+            <div class="search-container mx-auto">
+                <input type="text" id="searchInput" placeholder="Search products...">
+                <div class="search-icon" onclick="searchProduct()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+
+            <div class="nav-icons ms-auto">
+                <a href="my-orders.html" title="My Orders"><i class="fa-solid fa-box"></i></a>
+                <a href="add to cart.html" title="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
+                <a href="settings.html" title="Settings"><i class="fa-solid fa-gear"></i></a>
+                <a href="navbar.html#about-us" title="About Us"><i class="fa-solid fa-circle-info"></i></a>
+                <a href="navbar.html#contact-us" title="Contact Us"><i class="fa-solid fa-envelope"></i></a>
+                <a href="login.html" title="Login"><i class="fa-solid fa-user"></i></a>
+
+                <button onclick="logout()" class="btn-logout ms-3 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Back Button -->
+<button onclick="window.location.href='navbar.html'" class="back-btn">
+    ← Back to Home
+</button>
+
+<!-- Main Content -->
+<div class="container-orders">
+    <!-- Header -->
+    <div class="orders-header">
+        <h2><i class="fa-solid fa-box me-2"></i> My Orders</h2>
+        <div class="filter-section">
+            <select id="statusFilter" onchange="filterOrders()">
+                <option value="">All Orders</option>
+                <option value="delivered">Delivered</option>
+                <option value="shipped">Shipped</option>
+                <option value="pending">Pending</option>
+                <option value="cancelled">Cancelled</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Orders Container -->
+    <div id="ordersContainer"></div>
+</div>
+
+<!-- Cancel Order Modal -->
+<div class="modal fade" id="cancelModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cancel Order</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert-warning">
+                    <i class="fa-solid fa-exclamation-triangle me-2"></i>
+                    Are you sure you want to cancel this order? This action cannot be undone.
+                </div>
+
+                <div class="form-group">
+                    <label>Reason for Cancellation *</label>
+                    <select id="cancelReason" required>
+                        <option value="">Select a reason</option>
+                        <option value="changed-mind">Changed my mind</option>
+                        <option value="found-cheaper">Found cheaper elsewhere</option>
+                        <option value="wrong-item">Wrong item selected</option>
+                        <option value="no-longer-needed">No longer needed</option>
+                        <option value="order-duplicated">Order duplicated</option>
+                        <option value="other">Other reason</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Additional Comments (Optional)</label>
+                    <textarea id="cancelComments" maxlength="500" placeholder="Tell us more about your cancellation..."></textarea>
+                    <div class="char-count"><span id="cancelCharCount">0</span>/500</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modal btn-modal-cancel" data-bs-dismiss="modal">Keep Order</button>
+                <button type="button" class="btn-modal btn-modal-submit" onclick="submitCancelOrder()">Confirm Cancellation</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Return Order Modal -->
+<div class="modal fade" id="returnModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Return Order</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert-warning">
+                    <i class="fa-solid fa-info-circle me-2"></i>
+                    You can return items within 30 days of delivery. Please select the reason for return.
+                </div>
+
+                <div class="form-group">
+                    <label>Reason for Return *</label>
+                    <select id="returnReason" required>
+                        <option value="">Select a reason</option>
+                        <option value="defective">Item is defective/broken</option>
+                        <option value="damaged">Item arrived damaged</option>
+                        <option value="not-as-described">Not as described</option>
+                        <option value="wrong-item">Wrong item sent</option>
+                        <option value="not-needed">Changed my mind</option>
+                        <option value="quality-issue">Poor quality</option>
+                        <option value="other">Other reason</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Detailed Description *</label>
+                    <textarea id="returnDetails" maxlength="500" placeholder="Please describe the issue in detail..."></textarea>
+                    <div class="char-count"><span id="returnCharCount">0</span>/500</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Refund Method</label>
+                    <select id="refundMethod">
+                        <option value="original">Refund to Original Payment Method</option>
+                        <option value="wallet">Refund to Kmart Wallet</option>
+                    </select>
+                </div>
+
+                <div style="background: var(--bg-light); padding: 15px; border-radius: 6px; margin-top: 15px;">
+                    <h6 style="font-weight: 600; margin-bottom: 10px;">Return Process:</h6>
+                    <ol style="margin: 0; padding-left: 20px; color: var(--text-light); font-size: 0.9rem;">
+                        <li>Generate a return label and print it</li>
+                        <li>Pack the item securely in original packaging</li>
+                        <li>Drop it at any authorized pickup point</li>
+                        <li>Refund will be processed within 7-10 business days</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modal btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn-modal btn-modal-submit" onclick="submitReturnOrder()">Initiate Return</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Track Order Modal -->
+<div class="modal fade" id="trackModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Track Your Order</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="trackingDetails"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+let allOrders = [];
+let currentOrderId = null;
+
+// Load orders from localStorage
+function loadOrders() {
+    const orders = JSON.parse(localStorage.getItem('kmart_orders') || '[]');
+    allOrders = orders;
+    renderOrders();
+}
+
+// Render all orders
+function renderOrders() {
+    const container = document.getElementById('ordersContainer');
+    
+    if (allOrders.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-state-icon">
+                    <i class="fa-solid fa-inbox"></i>
+                </div>
+                <h3>No Orders Yet</h3>
+                <p>You haven't placed any orders yet. Start shopping now!</p>
+                <a href="navbar.html" class="empty-state-btn">Continue Shopping</a>
+            </div>
+        `;
+        return;
+    }
+
+    const filteredOrders = getFilteredOrders();
+    container.innerHTML = '';
+
+    filteredOrders.forEach((order, index) => {
+        const statusClass = `status-${order.status}`;
+        const statusIcon = getStatusIcon(order.status);
+        const orderDate = new Date(order.date).toLocaleDateString('en-IN', { 
+            day: 'numeric', 
+            month: 'short', 
+            year: 'numeric' 
+        });
+
+        let itemsHTML = '';
+        order.items.forEach(item => {
+            itemsHTML += `
+                <div class="order-item">
+                    <div class="item-image">
+                        <img src="${item.image || 'https://via.placeholder.com/80'}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/80'">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-meta">SKU: ${item.id || 'N/A'}</div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="item-price">₹${item.price.toFixed(2)}</div>
+                            <div class="item-qty">Qty: ${item.quantity}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        let actionButtons = `
+            <button class="action-btn primary" onclick="openTrackModal('${order.id}')">
+                <i class="fa-solid fa-location-dot me-2"></i> Track Order
+            </button>
+            <button class="action-btn" onclick="downloadInvoice('${order.id}')">
+                <i class="fa-solid fa-receipt me-2"></i> Invoice
+            </button>
+        `;
+
+        if (order.status !== 'cancelled' && order.status !== 'delivered') {
+            actionButtons += `
+                <button class="action-btn danger" onclick="openCancelModal('${order.id}')">
+                    <i class="fa-solid fa-x me-2"></i> Cancel
+                </button>
+            `;
+        }
+
+        if (order.status === 'delivered') {
+            actionButtons += `
+                <button class="action-btn danger" onclick="openReturnModal('${order.id}')">
+                    <i class="fa-solid fa-undo me-2"></i> Return
+                </button>
+            `;
+        }
+
+        const orderCard = `
+            <div class="order-card">
+                <div class="order-header">
+                    <div class="order-id-date">
+                        <div class="order-id">
+                            Order #${order.id}
+                            <small> • Placed on ${orderDate}</small>
+                        </div>
+                    </div>
+                    <span class="order-status ${statusClass}">
+                        ${statusIcon} ${order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                    </span>
+                </div>
+
+                <div class="order-body">
+                    <div class="order-items">
+                        ${itemsHTML}
+                    </div>
+
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span>₹${order.subtotal?.toFixed(2) || '0.00'}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Delivery Charges</span>
+                            <span>${order.delivery || 'Free'}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Discount</span>
+                            <span>-₹${order.discount?.toFixed(2) || '0.00'}</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span>₹${order.total.toFixed(2)}</span>
+                        </div>
+                    </div>
+
+                    ${order.status !== 'cancelled' ? `
+                        <div class="tracking-section">
+                            <div class="tracking-header">Order Progress</div>
+                            <div class="timeline">
+                                ${renderTimeline(order)}
+                            </div>
+                        </div>
+                    ` : `
+                        <div class="alert-warning">
+                            <i class="fa-solid fa-circle-xmark me-2"></i>
+                            This order was cancelled on ${new Date(order.cancelledDate).toLocaleDateString('en-IN')}
+                        </div>
+                    `}
+
+                    <div class="order-actions">
+                        ${actionButtons}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        container.innerHTML += orderCard;
+    });
+}
+
+function renderTimeline(order) {
+    const timeline = {
+        'pending': [
+            { status: 'completed', title: 'Order Placed', date: new Date(order.date) },
+            { status: 'active', title: 'Processing', date: null },
+            { status: 'pending', title: 'Shipped', date: null },
+            { status: 'pending', title: 'Delivered', date: null }
+        ],
+        'shipped': [
+            { status: 'completed', title: 'Order Placed', date: new Date(order.date) },
+            { status: 'completed', title: 'Processing', date: null },
+            { status: 'active', title: 'Shipped', date: order.shippedDate ? new Date(order.shippedDate) : null },
+            { status: 'pending', title: 'Delivered', date: null }
+        ],
+        'delivered': [
+            { status: 'completed', title: 'Order Placed', date: new Date(order.date) },
+            { status: 'completed', title: 'Processing', date: null },
+            { status: 'completed', title: 'Shipped', date: order.shippedDate ? new Date(order.shippedDate) : null },
+            { status: 'completed', title: 'Delivered', date: order.deliveredDate ? new Date(order.deliveredDate) : new Date() }
+        ]
+    };
+
+    const steps = timeline[order.status] || timeline['pending'];
+    let html = '';
+
+    steps.forEach(step => {
+        const dateStr = step.date ? step.date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '';
+        html += `
+            <div class="timeline-item ${step.status}">
+                <div class="timeline-content">
+                    <div class="timeline-title">${step.title}</div>
+                    ${dateStr ? `<div class="timeline-date">${dateStr}</div>` : ''}
+                </div>
+            </div>
+        `;
+    });
+
+    return html;
+}
+
+function getStatusIcon(status) {
+    const icons = {
+        'pending': '<i class="fa-solid fa-hourglass"></i>',
+        'shipped': '<i class="fa-solid fa-truck"></i>',
+        'delivered': '<i class="fa-solid fa-check-circle"></i>',
+        'cancelled': '<i class="fa-solid fa-circle-xmark"></i>'
+    };
+    return icons[status] || '<i class="fa-solid fa-package"></i>';
+}
+
+function getFilteredOrders() {
+    const filter = document.getElementById('statusFilter').value;
+    if (!filter) return allOrders;
+    return allOrders.filter(order => order.status === filter);
+}
+
+function filterOrders() {
+    renderOrders();
+}
+
+// Modal Functions
+function openCancelModal(orderId) {
+    currentOrderId = orderId;
+    document.getElementById('cancelReason').value = '';
+    document.getElementById('cancelComments').value = '';
+    document.getElementById('cancelCharCount').innerText = '0';
+    new bootstrap.Modal(document.getElementById('cancelModal')).show();
+}
+
+function openReturnModal(orderId) {
+    currentOrderId = orderId;
+    document.getElementById('returnReason').value = '';
+    document.getElementById('returnDetails').value = '';
+    document.getElementById('returnCharCount').innerText = '0';
+    new bootstrap.Modal(document.getElementById('returnModal')).show();
+}
+
+function openTrackModal(orderId) {
+    const order = allOrders.find(o => o.id === orderId);
+    if (!order) return;
+
+    let trackingHTML = `
+        <div>
+            <h6 style="margin-bottom: 15px; font-weight: 600;">Order #${order.id}</h6>
+            <div style="background: var(--bg-light); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <div class="d-flex justify-content-between mb-2">
+                    <span style="color: var(--text-light);">Tracking ID:</span>
+                    <span style="font-weight: 600;">TRK${Date.now().toString().slice(-8)}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span style="color: var(--text-light);">Carrier:</span>
+                    <span style="font-weight: 600;">Kmart Logistics</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span style="color: var(--text-light);">Estimated Delivery:</span>
+                    <span style="font-weight: 600; color: var(--primary-blue);">
+                        ${order.status === 'delivered' ? 'Delivered' : '2-3 Business Days'}
+                    </span>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <div class="tracking-header">Live Tracking</div>
+                <div class="timeline">
+                    ${renderTimeline(order)}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('trackingDetails').innerHTML = trackingHTML;
+    new bootstrap.Modal(document.getElementById('trackModal')).show();
+}
+
+function submitCancelOrder() {
+    const reason = document.getElementById('cancelReason').value;
+    const comments = document.getElementById('cancelComments').value;
+
+    if (!reason) {
+        alert('Please select a reason for cancellation');
+        return;
+    }
+
+    const order = allOrders.find(o => o.id === currentOrderId);
+    if (order) {
+        order.status = 'cancelled';
+        order.cancelledDate = new Date().toISOString();
+        order.cancellationReason = reason;
+        order.cancellationComments = comments;
+
+        localStorage.setItem('kmart_orders', JSON.stringify(allOrders));
+        renderOrders();
+
+        bootstrap.Modal.getInstance(document.getElementById('cancelModal')).hide();
+        showNotification('Order cancelled successfully!', 'success');
+    }
+}
+
+function submitReturnOrder() {
+    const reason = document.getElementById('returnReason').value;
+    const details = document.getElementById('returnDetails').value;
+    const refundMethod = document.getElementById('refundMethod').value;
+
+    if (!reason || !details) {
+        alert('Please fill in all required fields');
+        return;
+    }
+
+    const order = allOrders.find(o => o.id === currentOrderId);
+    if (order) {
+        order.returnStatus = 'initiated';
+        order.returnDate = new Date().toISOString();
+        order.returnReason = reason;
+        order.returnDetails = details;
+        order.refundMethod = refundMethod;
+        order.returnTrackingId = 'RMA' + Date.now().toString().slice(-8);
+
+        localStorage.setItem('kmart_orders', JSON.stringify(allOrders));
+        renderOrders();
+
+        bootstrap.Modal.getInstance(document.getElementById('returnModal')).hide();
+        showNotification('Return initiated successfully! You will receive a pickup slot shortly.', 'success');
+    }
+}
+
+function downloadInvoice(orderId) {
+    const order = allOrders.find(o => o.id === orderId);
+    if (!order) return;
+
+    let invoiceHTML = `
+        <html>
+        <head>
+            <title>Invoice - ${order.id}</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                h1 { color: #0ea5e9; }
+                .invoice-section { margin: 20px 0; border: 1px solid #ddd; padding: 15px; }
+                table { width: 100%; border-collapse: collapse; }
+                th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+                th { background: #f8f9fa; font-weight: bold; }
+                .total { font-weight: bold; font-size: 1.2em; }
+            </style>
+        </head>
+        <body>
+            <h1>Kmart Invoice</h1>
+            <div class="invoice-section">
+                <h3>Order Details</h3>
+                <p><strong>Order ID:</strong> ${order.id}</p>
+                <p><strong>Order Date:</strong> ${new Date(order.date).toLocaleDateString('en-IN')}</p>
+                <p><strong>Status:</strong> ${order.status}</p>
+            </div>
+            <div class="invoice-section">
+                <h3>Items</h3>
+                <table>
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                    ${order.items.map(item => `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>₹${item.price.toFixed(2)}</td>
+                            <td>${item.quantity}</td>
+                            <td>₹${(item.price * item.quantity).toFixed(2)}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+            </div>
+            <div class="invoice-section">
+                <p><strong>Subtotal:</strong> ₹${order.subtotal?.toFixed(2) || '0.00'}</p>
+                <p><strong>Discount:</strong> -₹${order.discount?.toFixed(2) || '0.00'}</p>
+                <p class="total"><strong>Total:</strong> ₹${order.total.toFixed(2)}</p>
+            </div>
+        </body>
+        </html>
+    `;
+
+    const printWindow = window.open('', '', 'height=500,width=800');
+    printWindow.document.write(invoiceHTML);
+    printWindow.document.close();
+    printWindow.print();
+}
+
+function showNotification(message, type = 'success') {
+    const container = document.getElementById('ordersContainer');
+    const alertClass = type === 'success' ? 'alert-success' : 'alert-warning';
+    const alert = document.createElement('div');
+    alert.className = alertClass;
+    alert.innerHTML = message;
+    alert.style.position = 'fixed';
+    alert.style.top = '100px';
+    alert.style.right = '20px';
+    alert.style.zIndex = '10000';
+    alert.style.minWidth = '300px';
+    alert.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+    document.body.appendChild(alert);
+    setTimeout(() => alert.remove(), 4000);
+}
+
+// Character counter for textareas
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('cancelComments')?.addEventListener('input', function() {
+        document.getElementById('cancelCharCount').innerText = this.value.length;
+    });
+    document.getElementById('returnDetails')?.addEventListener('input', function() {
+        document.getElementById('returnCharCount').innerText = this.value.length;
+    });
+
+    loadOrders();
+});
+
+function logout() {
+    localStorage.clear();
+    window.location.href = 'login.html';
+}
+
+function searchProduct() {
+    const search = document.getElementById('searchInput').value;
+    if (search) {
+        window.location.href = `navbar.html?search=${encodeURIComponent(search)}`;
+    }
+}
+
+// Generate sample orders for demo (remove in production)
+function generateSampleOrders() {
+    if (allOrders.length === 0) {
+        const samples = [
+            {
+                id: '1001',
+                status: 'delivered',
+                date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+                deliveredDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+                items: [
+                    { id: '101', name: 'Wireless Headphones', price: 1299, quantity: 1, image: 'https://img.freepik.com/premium-psd/wireless-headphone-png-isolated-transparent-background_625492-94291.jpg' }
+                ],
+                subtotal: 1299,
+                discount: 0,
+                total: 1299
+            },
+            {
+                id: '1002',
+                status: 'shipped',
+                date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+                shippedDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+                items: [
+                    { id: '102', name: 'USB-C Cable', price: 299, quantity: 2, image: 'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcRc0HQ0gywAHvxFK2FQbMLQ79N8gGYGiRZfPPcKn_bCVPTZae0gi5Kw5x7jdUxT-ZTbyWZEvjBdCDHKmqvtFRaiK8fX6a6uZg' },
+                    { id: '103', name: 'Phone Case', price: 499, quantity: 1, image: 'https://atcasa.co.in/cdn/shop/files/IMG_1647.jpg?v=1732810874' }
+                ],
+                subtotal: 1097,
+                discount: 100,
+                total: 997
+            }
+        ];
+        localStorage.setItem('kmart_orders', JSON.stringify(samples));
+        loadOrders();
+    }
+}
+
+generateSampleOrders();
+</script>
+
+
+</body>
+</html>
