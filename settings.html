@@ -624,7 +624,11 @@ function goHome() {
 
 function logout() {
     if(confirm("Are you sure you want to logout?")) {
+<<<<<<< HEAD
         window.location.href = "login.html";
+=======
+        window.location.href = "index.html";
+>>>>>>> 053988f (Initial commit)
     }
 }
 
@@ -758,6 +762,7 @@ function saveNewAddress() {
     const modal = bootstrap.Modal.getInstance(document.getElementById('addAddressModal'));
     modal.hide();
 }
+<<<<<<< HEAD
 function addCard() { 
     // Open the add card modal
     const modal = new bootstrap.Modal(document.getElementById('addCardModal'));
@@ -803,6 +808,9 @@ function saveNewCard() {
     const modal = bootstrap.Modal.getInstance(document.getElementById('addCardModal'));
     modal.hide();
 }
+=======
+function addCard() { alert(translations[currentLanguage]['btn-add-card']); }
+>>>>>>> 053988f (Initial commit)
 function verifyCurrentPassword() { alert(translations[currentLanguage]['btn-verify']); }
 function showForgotModal() { alert(translations[currentLanguage]['link-forgot']); }
 function confirmDeleteAccount() { alert(translations[currentLanguage]['btn-modal-delete']); }
@@ -835,7 +843,11 @@ function submitDeleteAccount() {
     
     // Redirect to login after a short delay
     setTimeout(() => {
+<<<<<<< HEAD
         window.location.href = 'login.html';
+=======
+        window.location.href = 'index.html';
+>>>>>>> 053988f (Initial commit)
     }, 1000);
 }
 
@@ -870,6 +882,7 @@ function submitDeactivateAccount() {
     }, 1000);
 }
 
+<<<<<<< HEAD
 // Format card number with spaces (XXXX XXXX XXXX XXXX)
 function formatCardNumber(input) {
     let value = input.value.replace(/\s/g, '');
@@ -886,6 +899,8 @@ function formatExpiry(input) {
     input.value = value;
 }
 
+=======
+>>>>>>> 053988f (Initial commit)
 // Initialize on page load
 document.addEventListener("DOMContentLoaded", function() {
     translatePage(currentLanguage);
@@ -1080,6 +1095,7 @@ function updateCartBadge() {
     </div>
 </div>
 
+<<<<<<< HEAD
 <!-- Add Card Modal -->
 <div class="modal fade" id="addCardModal" tabindex="-1" aria-labelledby="addCardModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -1125,6 +1141,8 @@ function updateCartBadge() {
         </div>
     </div>
 </div>
+=======
+>>>>>>> 053988f (Initial commit)
 
 </body>
 </html>
